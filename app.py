@@ -12,13 +12,13 @@ BASE_DIR = 'static/recados'
 def index():
     # Lista completa das diretorias disponíveis
     diretorias = [
-        'PRE-DF - Diretoria Financeira',
-        'PRE-DPR - Diretoria de Previdência',
-        'PRE-GC - Gestao de Compliance',
-        'PRE-GS - Gestão de Saúde',
-        'PRE-JUR - Jurídico',
-        'PRE-SA - Supervisão Administrativa',
-        'PRE-ST - Supervisão Técnica'
+        'Diretoria Financeira',
+        'Diretoria de Previdência',
+        'Gestao de Compliance',
+        'Gestão de Saúde',
+        'Jurídico',
+        'Supervisão Administrativa',
+        'Supervisão Técnica'
     ]
     # Renderiza a página inicial com os botões de acesso às diretorias
     return render_template('index.html', diretorias=diretorias)

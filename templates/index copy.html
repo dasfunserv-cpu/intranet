@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Intranet de Recados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f3f3;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            margin-bottom: 40px;
+        }
+        .diretoria-btn {
+            display: inline-block;
+            margin: 15px;
+            padding: 20px 40px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+        .diretoria-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Intranet de Recados</h1>
+    {% for diretoria in diretorias %}
+        <a href="/recados/{{ diretoria }}" class="diretoria-btn">{{ diretoria }}</a>
+    {% endfor %}
+</body>
+</html>
