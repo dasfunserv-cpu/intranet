@@ -17,8 +17,7 @@ def index():
         'Gestao de Compliance',
         'Gestão de Saúde',
         'Jurídico',
-        'Supervisão Administrativa',
-        'Supervisão Técnica'
+        'Supervisão Administrativa'
     ]
     # Renderiza a página inicial com os botões de acesso às diretorias
     return render_template('index.html', diretorias=diretorias)

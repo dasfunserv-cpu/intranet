@@ -1,159 +1,59 @@
-<!-- templates/recados.html -->
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <title>Recados - {{ diretoria }}</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f9f9f9;
-            padding: 40px;
-            max-width: 800px;
-            margin: auto;
-        }
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        h2 {
-            margin-top: 40px;
-            color: #333;
-            font-size: 1.3em;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 5px;
-        }
-        ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-        li {
-            background: #ffffff;
-            margin: 10px 0;
-            padding: 15px 20px;
-            border-radius: 6px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .arquivo-info {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        a {
-            text-decoration: none;
-            color: #007BFF;
-            font-weight: bold;
-            margin-left: 10px;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        .voltar {
-            display: block;
-            margin: 30px auto;
-            text-align: center;
-            color: #555;
-            text-decoration: none;
-            font-size: 16px;
-        }
-        .diretoria-btn {
-            display: inline-block;
-            margin: 15px;
-            padding: 20px 40px;
-            background-color: #007BFF;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-size: 18px;
-            transition: background-color 0.3s;
-        }
-        .diretoria-btn:hover {
-            background-color: #0056b3;
-        }
+{% extends 'base.html' %}
 
-        /* Estilos para o formulário de busca */
-        form {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        input[type="text"] {
-            padding: 6px;
-            width: 300px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        button {
-            padding: 6px 12px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+{% block title %}Recados - {{ diretoria }}{% endblock %}
 
-        .icon {
-            margin-right: 10px;
-            font-size: 1.2em;
-            width: 20px;
-            text-align: center;
-        }
+{% block head_extra %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+{% endblock %}
 
-        .data-mod {
-            font-size: 0.9em;
-            color: #666;
-            margin-left: auto;
-        }
-    </style>
-</head>
-<body>
-    <h1>Recados - {{ diretoria }}</h1>
+{% block content %}
+    <h1 class="text-center mb-5">Recados - {{ diretoria }}</h1>
 
-    <form method="get">
-        <input type="text" name="busca" placeholder="Buscar por nome do recado..." value="{{ busca }}">
-        <button type="submit">Buscar</button>
+    <form method="get" class="text-center mb-4">
+        <input type="text" name="busca" placeholder="Buscar por nome do recado..." value="{{ busca }}" class="form-control d-inline-block w-50 me-2">
+        <button type="submit" class="btn btn-primary">Buscar</button>
     </form>
 
     {% if arquivos_agrupados %}
         {% for grupo, arquivos in arquivos_agrupados.items() %}
-            <h2><i class="fas fa-folder-open"></i> {{ grupo }}</h2>
-            <ul>
+            <h2 class="mt-4 mb-3">
+                <i class="fas fa-folder-open me-2 text-secondary"></i>{{ grupo }}
+            </h2>
+            <ul class="list-group mb-4">
                 {% for arquivo in arquivos %}
-                    <li>
-                        <div class="arquivo-info">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center flex-wrap">
                             {% set ext = arquivo.nome.split('.')[-1].lower() %}
                             {% if ext == 'pdf' %}
-                                <i class="fas fa-file-pdf icon" style="color:red;"></i>
+                                <i class="fas fa-file-pdf text-danger me-2"></i>
                             {% elif ext in ['doc', 'docx'] %}
-                                <i class="fas fa-file-word icon" style="color:blue;"></i>
+                                <i class="fas fa-file-word text-primary me-2"></i>
                             {% elif ext in ['xls', 'xlsx', 'csv'] %}
-                                <i class="fas fa-file-excel icon" style="color:green;"></i>
+                                <i class="fas fa-file-excel text-success me-2"></i>
                             {% elif ext in ['jpg', 'jpeg', 'png'] %}
-                                <i class="fas fa-file-image icon" style="color:orange;"></i>
+                                <i class="fas fa-file-image text-warning me-2"></i>
                             {% elif ext == 'txt' %}
-                                <i class="fas fa-file-lines icon" style="color:gray;"></i>
+                                <i class="fas fa-file-lines text-muted me-2"></i>
                             {% elif ext in ['mp4', 'webm'] %}
-                                <i class="fas fa-file-video icon" style="color:purple;"></i>
+                                <i class="fas fa-file-video text-purple me-2"></i>
                             {% else %}
-                                <i class="fas fa-file icon" style="color:black;"></i>
+                                <i class="fas fa-file text-dark me-2"></i>
                             {% endif %}
-                            <a href="{{ url_for('abrir_arquivo', diretoria=diretoria, arquivo=arquivo.nome) }}" target="_blank">
+                            <a href="{{ url_for('abrir_arquivo', diretoria=diretoria, arquivo=arquivo.nome) }}" class="fw-bold text-decoration-none" target="_blank">
                                 {{ arquivo.nome }}
                             </a>
                         </div>
-                        <div class="data-mod">{{ arquivo.data }}</div>
+                        <span class="text-muted small">{{ arquivo.data }}</span>
                     </li>
                 {% endfor %}
             </ul>
         {% endfor %}
     {% else %}
-        <p>Nenhum recado encontrado.</p>
+        <p class="text-muted text-center">Nenhum recado encontrado.</p>
     {% endif %}
 
-    <a class="diretoria-btn" href="/">Voltar para as diretorias</a>
-    <a class="diretoria-btn" href="/recados/{{ diretoria }}">Ver todos os recados</a>
-</body>
-</html>
+    <div class="text-center mt-4">
+        <a class="btn btn-outline-primary me-2" href="/">Voltar para as diretorias</a>
+        <a class="btn btn-outline-secondary" href="/recados/{{ diretoria }}">Ver todos os recados</a>
+    </div>
+{% endblock %}
