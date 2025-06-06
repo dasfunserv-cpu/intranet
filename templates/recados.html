@@ -1,59 +1,154 @@
 {% extends 'base.html' %}
 
-{% block title %}Recados - {{ diretoria }}{% endblock %}
+{% block title %}Intranet Funserv {{ diretoria }}{% endblock %}
 
 {% block head_extra %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 {% endblock %}
 
 {% block content %}
-    <h1 class="text-center mb-5">Recados - {{ diretoria }}</h1>
+<!-- <h1 class="text-center mb-5">{{ diretoria }}</h1> -->
 
-    <form method="get" class="text-center mb-4">
-        <input type="text" name="busca" placeholder="Buscar por nome do recado..." value="{{ busca }}" class="form-control d-inline-block w-50 me-2">
-        <button type="submit" class="btn btn-primary">Buscar</button>
-    </form>
+<br>
+<form method="get" class="text-center mb-4">
+    <input type="text" name="busca" placeholder="Buscar por nome do recado..." value="{{ busca }}" class="form-control d-inline-block w-50 me-2">
+    <button type="submit" class="btn btn-primary">Buscar</button>
+</form>
 
-    {% if arquivos_agrupados %}
-        {% for grupo, arquivos in arquivos_agrupados.items() %}
-            <h2 class="mt-4 mb-3">
-                <i class="fas fa-folder-open me-2 text-secondary"></i>{{ grupo }}
-            </h2>
-            <ul class="list-group mb-4">
-                {% for arquivo in arquivos %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div class="d-flex align-items-center flex-wrap">
-                            {% set ext = arquivo.nome.split('.')[-1].lower() %}
-                            {% if ext == 'pdf' %}
-                                <i class="fas fa-file-pdf text-danger me-2"></i>
-                            {% elif ext in ['doc', 'docx'] %}
-                                <i class="fas fa-file-word text-primary me-2"></i>
-                            {% elif ext in ['xls', 'xlsx', 'csv'] %}
-                                <i class="fas fa-file-excel text-success me-2"></i>
-                            {% elif ext in ['jpg', 'jpeg', 'png'] %}
-                                <i class="fas fa-file-image text-warning me-2"></i>
-                            {% elif ext == 'txt' %}
-                                <i class="fas fa-file-lines text-muted me-2"></i>
-                            {% elif ext in ['mp4', 'webm'] %}
-                                <i class="fas fa-file-video text-purple me-2"></i>
-                            {% else %}
-                                <i class="fas fa-file text-dark me-2"></i>
-                            {% endif %}
-                            <a href="{{ url_for('abrir_arquivo', diretoria=diretoria, arquivo=arquivo.nome) }}" class="fw-bold text-decoration-none" target="_blank">
-                                {{ arquivo.nome }}
-                            </a>
-                        </div>
-                        <span class="text-muted small">{{ arquivo.data }}</span>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endfor %}
-    {% else %}
-        <p class="text-muted text-center">Nenhum recado encontrado.</p>
-    {% endif %}
+<div class="row">
+    <!-- Coluna da listagem -->
+    <div class="col-md-6" id="coluna-listagem">
+        {% if arquivos_agrupados %}
+            {% for grupo, arquivos in arquivos_agrupados.items() %}
+                <h2 class="mt-4 mb-3">
+                    <i class="fas fa-folder-open me-2 text-secondary"></i>{{ grupo }}
+                </h2>
+                <ul class="list-group mb-4">
+                    {% for arquivo in arquivos %}
+                        {% set ext = arquivo.nome.split('.')[-1].lower() %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center flex-wrap">
+                                {% if ext == 'pdf' %}
+                                    <i class="fas fa-file-pdf text-danger me-2"></i>
+                                {% elif ext in ['doc', 'docx'] %}
+                                    <i class="fas fa-file-word text-primary me-2"></i>
+                                {% elif ext in ['xls', 'xlsx', 'csv'] %}
+                                    <i class="fas fa-file-excel text-success me-2"></i>
+                                {% elif ext in ['jpg', 'jpeg', 'png'] %}
+                                    <i class="fas fa-file-image text-warning me-2"></i>
+                                {% elif ext == 'txt' %}
+                                    <i class="fas fa-file-lines text-muted me-2"></i>
+                                {% elif ext in ['mp4', 'webm'] %}
+                                    <i class="fas fa-file-video text-purple me-2"></i>
+                                {% else %}
+                                    <i class="fas fa-file text-dark me-2"></i>
+                                {% endif %}
 
-    <div class="text-center mt-4">
-        <a class="btn btn-outline-primary me-2" href="/">Voltar para as diretorias</a>
-        <a class="btn btn-outline-secondary" href="/recados/{{ diretoria }}">Ver todos os recados</a>
+                                <!-- Nome do arquivo na lista  -->
+                                <a href="{{ url_for('visualizar_arquivo', diretoria=diretoria, arquivo=arquivo.nome) }}"
+                                    class="fw-bold text-decoration-none preview-link"
+                                    data-ext="{{ ext }}">
+                                    {{ arquivo.nome }}
+                                </a>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <!-- Data do arquivo e botão para baixar o arquivo -->
+                                <span class="text-muted small me-3">{{ arquivo.data }}</span>
+                                <a href="{{ url_for('abrir_arquivo_visualizador', diretoria=diretoria, arquivo=arquivo.nome) }}"
+                                   class="btn btn-sm btn-outline-secondary" download>
+                                    <i class="fas fa-download me-1"></i> Baixar
+                                </a>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted text-center">Nenhum recado encontrado.</p>
+        {% endif %}
+
+        <div class="text-center mt-4">
+            <a class="btn btn-outline-primary me-2" href="/">Voltar</a>
+            <a class="btn btn-outline-secondary" href="/recados/{{ diretoria }}">Ver todos os recados</a>
+        </div>
     </div>
+
+    <!-- Coluna de pré-visualização -->
+    <div class="col-md-6" id="coluna-preview">
+        <div class="border rounded p-3 bg-white" style="min-height: 500px;">
+            <h5 class="mb-3">Pré-visualização</h5>
+            <div id="preview-container" class="text-center text-muted">
+                <p>Nenhum arquivo selecionado.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+<!-- Bloco da lógica que permite a visualização de arquivos -->
+{% block script_extra %}
+<script>
+    function previewArquivo(url, ext) {
+        const container = document.getElementById('preview-container');
+        container.innerHTML = ""; // limpa o conteúdo anterior
+
+        let previewHtml = '';
+
+        if (ext === 'pdf' || ext === 'doc' || ext === 'docx') {
+            previewHtml = `<iframe src="${url}" width="100%" height="500px" style="border:none;"></iframe>`;
+        } else if (['xls', 'xlsx'].includes(ext)) {
+            previewHtml = `
+                <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}"
+                        width="100%" height="500px" frameborder="0"></iframe>`;
+        } else if (['jpg', 'jpeg', 'png'].includes(ext)) {
+            previewHtml = `<img src="${url}" class="img-fluid" alt="Imagem" style="max-height: 500px;">`;
+        } else if (['txt', 'csv'].includes(ext)) {
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    container.innerHTML = `
+                        <div class="d-flex justify-content-end mb-2">
+                            <button class="btn btn-sm btn-outline-secondary me-2" onclick="fecharPreview()" title="Fechar pré-visualização">Fechar</button>
+                            <a class="btn btn-sm btn-outline-primary" href="${url}" target="_blank">Abrir em nova aba</a>
+                        </div>
+                        <pre class="text-start" style="max-height:500px; overflow:auto;">${data}</pre>`;
+                })
+                .catch(() => {
+                    container.innerHTML = `<p class="text-danger">Erro ao carregar o conteúdo do arquivo.</p>`;
+                });
+            return;
+        } else if (['mp4', 'webm'].includes(ext)) {
+            previewHtml = `
+                <video width="100%" height="auto" controls>
+                    <source src="${url}" type="video/${ext}">
+                    Seu navegador não suporta a reprodução de vídeo.
+                </video>`;
+        } else {
+            previewHtml = `<p class="text-muted">Pré-visualização não suportada para este tipo de arquivo.</p>`;
+        }
+
+        container.innerHTML = `
+            <div class="d-flex justify-content-end mb-2">
+                <button class="btn btn-sm btn-outline-secondary me-2" onclick="fecharPreview()">Fechar</button>
+                <a class="btn btn-sm btn-outline-primary" href="${url}" target="_blank">Abrir em nova aba</a>
+            </div>
+            ${previewHtml}`;
+    }
+
+
+    function fecharPreview() {
+        const container = document.getElementById('preview-container');
+        container.innerHTML = `<p>Nenhum arquivo selecionado.</p>`;
+    }
+
+    document.querySelectorAll('.preview-link').forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const url = this.getAttribute('href');
+            const ext = this.dataset.ext;
+            previewArquivo(url, ext);
+        });
+    });
+</script>
 {% endblock %}

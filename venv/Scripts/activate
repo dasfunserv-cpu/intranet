@@ -35,7 +35,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\Usuário\OneDrive\Documentos\Intranet\venv"
+VIRTUAL_ENV="C:\FUNSERV\VSCode-Projects\Intranet\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

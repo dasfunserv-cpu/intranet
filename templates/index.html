@@ -1,10 +1,10 @@
 <!-- templates/index.html -->
 {% extends 'base.html' %}
 
-{% block title %}Intranet de Recados{% endblock %}
+{% block title %}Intranet Funserv{% endblock %}
 
 {% block content %}
-    <h1 class="text-center mb-5">Intranet de Recados</h1>
+    <h1 class="text-center mb-5">Escolha o setor:</h1>
     <div class="d-flex flex-wrap justify-content-center gap-3">
         {% for diretoria in diretorias %}
             <a href="/recados/{{ diretoria }}" class="btn btn-primary btn-lg">
