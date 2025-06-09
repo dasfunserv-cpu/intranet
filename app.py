@@ -1,81 +1,97 @@
-from flask import Flask, render_template, send_from_directory, request, send_file, abort
+from flask import Flask, render_template, send_from_directory, request, send_file, abort, redirect, url_for, flash
 import os
 from collections import defaultdict
 from datetime import datetime
-from docx2pdf import convert  # biblioteca para converter docx em pdf
+from docx2pdf import convert
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
+app.secret_key = 'sua_chave_secreta'  # necessário para usar flash()
 
 # Caminho base onde os arquivos estão organizados por diretoria
 BASE_DIR = 'static/recados'
+UPLOAD_FOLDER = BASE_DIR
+TEMP_PDF_FOLDER = 'temp_pdf'
+os.makedirs(TEMP_PDF_FOLDER, exist_ok=True)
 
-@app.route('/')
+# Diretórios existentes
+DIRETORIAS = [
+    'Diretoria Financeira',
+    'Diretoria de Previdência',
+    'Gestao de Compliance',
+    'Gestão de Saúde',
+    'Jurídico',
+    'Supervisão Administrativa',
+    'Circulares e Instruções Normativas',
+    'Gestão de Recursos'
+]
+
+# Extensões permitidas
+EXTENSOES_PERMITIDAS = {'.pdf', '.doc', '.docx', '.xls', '.xlsx', '.csv', '.txt', '.jpg', '.jpeg', '.png', '.mp4', '.webm'}
+
+def extensao_permitida(filename):
+    return '.' in filename and os.path.splitext(filename)[1].lower() in EXTENSOES_PERMITIDAS
+
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    # Lista completa das diretorias disponíveis
-    diretorias = [
-        'Diretoria Financeira',
-        'Diretoria de Previdência',
-        'Gestao de Compliance',
-        'Gestão de Saúde',
-        'Jurídico',
-        'Supervisão Administrativa',
-        'Circulares e Instruções Normativas',
-        'Gestão de Recursos'
-    ]
-    # Renderiza a página inicial com os botões de acesso às diretorias
-    return render_template('index.html', diretorias=diretorias)
+    if request.method == 'POST':
+        diretoria = request.form.get('diretoria')
+        file = request.files.get('arquivo')
+
+        if diretoria not in DIRETORIAS:
+            flash('Setor inválido.', 'danger')
+            return redirect(request.url)
+
+        if not file or file.filename == '':
+            flash('Nenhum arquivo selecionado.', 'warning')
+            return redirect(request.url)
+
+        if not extensao_permitida(file.filename):
+            flash('Extensão de arquivo não permitida.', 'danger')
+            return redirect(request.url)
+
+        filename = secure_filename(file.filename)
+        setor_path = os.path.join(UPLOAD_FOLDER, diretoria)
+        os.makedirs(setor_path, exist_ok=True)
+        file.save(os.path.join(setor_path, filename))
+
+        flash('Arquivo enviado com sucesso!', 'success')
+        return redirect(url_for('index'))
+
+    return render_template('index.html', diretorias=DIRETORIAS)
 
 @app.route('/recados/<diretoria>')
 def recados(diretoria):
-    # Obtém o termo de busca da query string, se houver
     busca = request.args.get('busca', '').lower()
-    # Define o caminho da pasta específica da diretoria
     caminho = os.path.join(BASE_DIR, diretoria)
 
-    # Lista de extensões permitidas
-    extensoes_permitidas = ['.pdf', '.docx', '.xlsx', '.xls', '.png', '.jpg', '.jpeg', '.txt', '.webm', '.mp4', '.csv']
-
-    # Lista os arquivos com extensões permitidas
     arquivos = [f for f in os.listdir(caminho)
-                if os.path.splitext(f)[1].lower() in extensoes_permitidas]
+                if os.path.splitext(f)[1].lower() in EXTENSOES_PERMITIDAS]
 
-    # Filtra os arquivos se um termo de busca foi informado
     if busca:
         arquivos = [f for f in arquivos if busca in f.lower()]
 
-    # Agrupamento por mês/ano de modificação
-    arquivos_agrupados = defaultdict(list)
+    arquivos_listados = []
     for arquivo in arquivos:
         caminho_arquivo = os.path.join(caminho, arquivo)
         timestamp = os.path.getmtime(caminho_arquivo)
         data_modificacao = datetime.fromtimestamp(timestamp)
-        chave_data = data_modificacao.strftime('%B %Y')  # Ex: 'Abril 2025'
-        arquivos_agrupados[chave_data].append({
+        arquivos_listados.append({
             'nome': arquivo,
             'data': data_modificacao.strftime('%d/%m/%Y'),
+            'timestamp': timestamp
         })
 
-    # Ordena os grupos por data decrescente
-    arquivos_agrupados_ordenados = dict(sorted(
-        arquivos_agrupados.items(),
-        key=lambda item: datetime.strptime(item[0], '%B %Y'),
-        reverse=True
-    ))
+    arquivos_listados.sort(key=lambda x: x['timestamp'], reverse=True)
 
     return render_template('recados.html',
                            diretoria=diretoria,
-                           arquivos_agrupados=arquivos_agrupados_ordenados,
+                           arquivos=arquivos_listados,
                            busca=busca)
 
 @app.route('/recado/<diretoria>/<arquivo>')
 def abrir_arquivo_visualizador(diretoria, arquivo):
-    # Envia o arquivo selecionado para o navegador abrir ou baixar
     return send_from_directory(os.path.join(BASE_DIR, diretoria), arquivo)
-
-
-UPLOAD_FOLDER = os.path.join('static', 'recados')        # pasta onde os arquivos originais ficam
-TEMP_PDF_FOLDER = 'temp_pdf'                              # pasta temporária para pdfs convertidos
-os.makedirs(TEMP_PDF_FOLDER, exist_ok=True)
 
 @app.route('/visualizar/<diretoria>/<arquivo>')
 def visualizar_arquivo(diretoria, arquivo):
@@ -85,7 +101,6 @@ def visualizar_arquivo(diretoria, arquivo):
     if not os.path.exists(caminho_arquivo):
         abort(404)
 
-    # Se for doc ou docx, converte para PDF
     if ext in ['doc', 'docx']:
         nome_pdf = f"{arquivo.rsplit('.', 1)[0]}_{diretoria.replace(' ', '_')}.pdf"
         caminho_pdf = os.path.join(TEMP_PDF_FOLDER, nome_pdf)
@@ -98,13 +113,7 @@ def visualizar_arquivo(diretoria, arquivo):
 
         return send_file(caminho_pdf, mimetype='application/pdf')
 
-    # Arquivos diretos como PDF, imagens, etc.
     return send_file(caminho_arquivo)
 
-
-
-
-
 if __name__ == '__main__':
-    # Executa o servidor Flask acessível em toda a rede local na porta 5000
     app.run(host='0.0.0.0', port=5000, debug=True)

@@ -4,65 +4,64 @@
 
 {% block head_extra %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+    #split-container {
+        height: calc(100vh - 100px);
+    }
+    #divider {
+        width: 5px;
+        cursor: col-resize;
+        background-color: #ccc;
+    }
+    #divider:hover {
+        background-color: #999;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
-<!-- <h1 class="text-center mb-5">{{ diretoria }}</h1> -->
 
-<br>
-<form method="get" class="text-center mb-4">
-    <input type="text" name="busca" placeholder="Buscar por nome do recado..." value="{{ busca }}" class="form-control d-inline-block w-50 me-2">
-    <button type="submit" class="btn btn-primary">Buscar</button>
-</form>
-
-<div class="row">
+<div id="split-container" class="d-flex">
     <!-- Coluna da listagem -->
-    <div class="col-md-6" id="coluna-listagem">
-        {% if arquivos_agrupados %}
-            {% for grupo, arquivos in arquivos_agrupados.items() %}
-                <h2 class="mt-4 mb-3">
-                    <i class="fas fa-folder-open me-2 text-secondary"></i>{{ grupo }}
-                </h2>
-                <ul class="list-group mb-4">
-                    {% for arquivo in arquivos %}
-                        {% set ext = arquivo.nome.split('.')[-1].lower() %}
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <div class="d-flex align-items-center flex-wrap">
-                                {% if ext == 'pdf' %}
-                                    <i class="fas fa-file-pdf text-danger me-2"></i>
-                                {% elif ext in ['doc', 'docx'] %}
-                                    <i class="fas fa-file-word text-primary me-2"></i>
-                                {% elif ext in ['xls', 'xlsx', 'csv'] %}
-                                    <i class="fas fa-file-excel text-success me-2"></i>
-                                {% elif ext in ['jpg', 'jpeg', 'png'] %}
-                                    <i class="fas fa-file-image text-warning me-2"></i>
-                                {% elif ext == 'txt' %}
-                                    <i class="fas fa-file-lines text-muted me-2"></i>
-                                {% elif ext in ['mp4', 'webm'] %}
-                                    <i class="fas fa-file-video text-purple me-2"></i>
-                                {% else %}
-                                    <i class="fas fa-file text-dark me-2"></i>
-                                {% endif %}
+    <div id="coluna-listagem" class="p-3 border-end" style="width: 30%; min-width: 200px; overflow-y: auto;">
+        {% if arquivos %}
+            <ul class="list-group mb-4">
+                {% for arquivo in arquivos %}
+                    {% set ext = arquivo.nome.split('.')[-1].lower() %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                        <div class="d-flex align-items-center">
+                            {% if ext == 'pdf' %}
+                                <i class="fas fa-file-pdf text-danger me-2"></i>
+                            {% elif ext in ['doc', 'docx'] %}
+                                <i class="fas fa-file-word text-primary me-2"></i>
+                            {% elif ext in ['xls', 'xlsx', 'csv'] %}
+                                <i class="fas fa-file-excel text-success me-2"></i>
+                            {% elif ext in ['jpg', 'jpeg', 'png'] %}
+                                <i class="fas fa-file-image text-warning me-2"></i>
+                            {% elif ext == 'txt' %}
+                                <i class="fas fa-file-lines text-muted me-2"></i>
+                            {% elif ext in ['mp4', 'webm'] %}
+                                <i class="fas fa-file-video text-purple me-2"></i>
+                            {% else %}
+                                <i class="fas fa-file text-dark me-2"></i>
+                            {% endif %}
 
-                                <!-- Nome do arquivo na lista  -->
-                                <a href="{{ url_for('visualizar_arquivo', diretoria=diretoria, arquivo=arquivo.nome) }}"
-                                    class="fw-bold text-decoration-none preview-link"
-                                    data-ext="{{ ext }}">
-                                    {{ arquivo.nome }}
-                                </a>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <!-- Data do arquivo e botão para baixar o arquivo -->
-                                <span class="text-muted small me-3">{{ arquivo.data }}</span>
-                                <a href="{{ url_for('abrir_arquivo_visualizador', diretoria=diretoria, arquivo=arquivo.nome) }}"
-                                   class="btn btn-sm btn-outline-secondary" download>
-                                    <i class="fas fa-download me-1"></i> Baixar
-                                </a>
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endfor %}
+                            <a href="{{ url_for('visualizar_arquivo', diretoria=diretoria, arquivo=arquivo.nome) }}"
+                            class="fw-bold text-decoration-none preview-link"
+                            data-ext="{{ ext }}">
+                                {{ arquivo.nome }}
+                            </a>
+                        </div>
+                        <div class="d-flex align-items-center mt-2 mt-md-0">
+                            <span class="text-muted small me-3">{{ arquivo.data }}</span>
+                            <a href="{{ url_for('abrir_arquivo_visualizador', diretoria=diretoria, arquivo=arquivo.nome) }}"
+                            class="btn btn-sm btn-outline-secondary" download>
+                                <i class="fas fa-download me-1"></i> Baixar
+                            </a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
         {% else %}
             <p class="text-muted text-center">Nenhum recado encontrado.</p>
         {% endif %}
@@ -73,30 +72,31 @@
         </div>
     </div>
 
+    <!-- Barra divisória -->
+    <div id="divider"></div>
+
     <!-- Coluna de pré-visualização -->
-    <div class="col-md-6" id="coluna-preview">
-        <div class="border rounded p-3 bg-white" style="min-height: 500px;">
-            <h5 class="mb-3">Pré-visualização</h5>
+    <div id="coluna-preview" class="p-3 flex-grow-1" style="min-width: 200px;">
+        <div class="border rounded p-3 bg-white" style="min-height: 700px;">
             <div id="preview-container" class="text-center text-muted">
                 <p>Nenhum arquivo selecionado.</p>
+                <h5 class="mb-3">Pré-visualização</h5>
             </div>
         </div>
     </div>
 </div>
 {% endblock %}
 
-
-<!-- Bloco da lógica que permite a visualização de arquivos -->
 {% block script_extra %}
 <script>
     function previewArquivo(url, ext) {
         const container = document.getElementById('preview-container');
-        container.innerHTML = ""; // limpa o conteúdo anterior
+        container.innerHTML = "";
 
         let previewHtml = '';
 
-        if (ext === 'pdf' || ext === 'doc' || ext === 'docx') {
-            previewHtml = `<iframe src="${url}" width="100%" height="500px" style="border:none;"></iframe>`;
+        if (['pdf', 'doc', 'docx'].includes(ext)) {
+            previewHtml = `<iframe src="${url}" width="100%" height="900px" style="border:none;"></iframe>`;
         } else if (['xls', 'xlsx'].includes(ext)) {
             previewHtml = `
                 <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}"
@@ -109,7 +109,7 @@
                 .then(data => {
                     container.innerHTML = `
                         <div class="d-flex justify-content-end mb-2">
-                            <button class="btn btn-sm btn-outline-secondary me-2" onclick="fecharPreview()" title="Fechar pré-visualização">Fechar</button>
+                            <button class="btn btn-sm btn-outline-secondary me-2" onclick="fecharPreview()">Fechar</button>
                             <a class="btn btn-sm btn-outline-primary" href="${url}" target="_blank">Abrir em nova aba</a>
                         </div>
                         <pre class="text-start" style="max-height:500px; overflow:auto;">${data}</pre>`;
@@ -136,7 +136,6 @@
             ${previewHtml}`;
     }
 
-
     function fecharPreview() {
         const container = document.getElementById('preview-container');
         container.innerHTML = `<p>Nenhum arquivo selecionado.</p>`;
@@ -149,6 +148,32 @@
             const ext = this.dataset.ext;
             previewArquivo(url, ext);
         });
+    });
+
+    // Script para tornar a divisória móvel
+    const divider = document.getElementById('divider');
+    const left = document.getElementById('coluna-listagem');
+    const right = document.getElementById('coluna-preview');
+    const container = document.getElementById('split-container');
+    let isResizing = false;
+
+    divider.addEventListener('mousedown', function (e) {
+        isResizing = true;
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', function (e) {
+        if (!isResizing) return;
+        const offsetLeft = container.offsetLeft;
+        const newLeftWidth = e.clientX - offsetLeft;
+        if (newLeftWidth > 150 && newLeftWidth < window.innerWidth - 200) {
+            left.style.width = newLeftWidth + 'px';
+        }
+    });
+
+    document.addEventListener('mouseup', function () {
+        isResizing = false;
+        document.body.style.cursor = 'default';
     });
 </script>
 {% endblock %}

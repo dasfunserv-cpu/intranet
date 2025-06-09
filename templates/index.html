@@ -4,12 +4,46 @@
 {% block title %}Intranet Funserv{% endblock %}
 
 {% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="container mt-3">
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+
     <h1 class="text-center mb-5">Escolha o setor:</h1>
-    <div class="d-flex flex-wrap justify-content-center gap-3">
+    <div class="d-flex flex-wrap justify-content-center gap-3 mb-5">
         {% for diretoria in diretorias %}
             <a href="/recados/{{ diretoria }}" class="btn btn-primary btn-lg">
                 {{ diretoria }}
             </a>
         {% endfor %}
+    </div>
+
+    <div class="container border p-4 rounded bg-light">
+        <h4 class="mb-4">Enviar novo arquivo</h4>
+        <form action="{{ url_for('index') }}" method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="diretoria" class="form-label">Selecione a diretoria:</label>
+                <select name="diretoria" id="diretoria" class="form-select" required>
+                    {% for diretoria in diretorias %}
+                        <option value="{{ diretoria }}">{{ diretoria }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="arquivo" class="form-label">Escolha o arquivo:</label>
+                <input type="file" name="arquivo" id="arquivo" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-success">Enviar</button>
+        </form>
     </div>
 {% endblock %}
