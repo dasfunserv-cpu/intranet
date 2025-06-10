@@ -28,22 +28,4 @@
         {% endfor %}
     </div>
 
-    <div class="container border p-4 rounded bg-light">
-        <h4 class="mb-4">Enviar novo arquivo</h4>
-        <form action="{{ url_for('index') }}" method="POST" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="diretoria" class="form-label">Selecione a diretoria:</label>
-                <select name="diretoria" id="diretoria" class="form-select" required>
-                    {% for diretoria in diretorias %}
-                        <option value="{{ diretoria }}">{{ diretoria }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="arquivo" class="form-label">Escolha o arquivo:</label>
-                <input type="file" name="arquivo" id="arquivo" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-success">Enviar</button>
-        </form>
-    </div>
 {% endblock %}

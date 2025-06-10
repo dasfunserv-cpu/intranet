@@ -115,5 +115,35 @@ def visualizar_arquivo(diretoria, arquivo):
 
     return send_file(caminho_arquivo)
 
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+        diretoria = request.form.get('diretoria')
+        file = request.files.get('arquivo')
+
+        if diretoria not in DIRETORIAS:
+            flash('Setor inválido.', 'danger')
+            return redirect(request.url)
+
+        if not file or file.filename == '':
+            flash('Nenhum arquivo selecionado.', 'warning')
+            return redirect(request.url)
+
+        if not extensao_permitida(file.filename):
+            flash('Extensão de arquivo não permitida.', 'danger')
+            return redirect(request.url)
+
+        filename = secure_filename(file.filename)
+        setor_path = os.path.join(UPLOAD_FOLDER, diretoria)
+        os.makedirs(setor_path, exist_ok=True)
+        file.save(os.path.join(setor_path, filename))
+
+        flash('Arquivo enviado com sucesso!', 'success')
+        return redirect(url_for('upload'))
+
+    return render_template('upload.html', diretorias=DIRETORIAS)
+
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=True)
