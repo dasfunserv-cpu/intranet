@@ -1,0 +1,38 @@
+<!-- templates/editar_arquivo.html -->
+{% extends 'base.html' %}
+
+{% block title %}Editar Arquivo{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Editar Arquivo</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="post">
+        <input type="hidden" name="diretoria" value="{{ diretoria }}">
+        <input type="hidden" name="arquivo_atual" value="{{ arquivo }}">
+
+        <div class="mb-3">
+            <label for="novo_nome" class="form-label">Novo nome do arquivo:</label>
+            <input type="text" class="form-control" id="novo_nome" name="novo_nome" value="{{ arquivo }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="nova_descricao" class="form-label">Descrição:</label>
+            <textarea class="form-control" id="nova_descricao" name="nova_descricao" rows="3">{{ descricao_atual }}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Salvar alterações</button>
+    </form>
+</div>
+{% endblock %}

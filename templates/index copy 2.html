@@ -18,6 +18,7 @@
   {% endif %}
 {% endwith %}
 
+
 <h1 class="mb-4">Setores disponíveis:</h1>
 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5">
     {% for diretoria in diretorias %}
@@ -36,29 +37,23 @@
     {% endfor %}
 </div>
 
-{% if busca and resultados %}
+
+
+    {% if busca and resultados %}
     <h2 class="mt-5">Resultados da busca por "{{ busca }}":</h2>
     <ul class="list-group">
         {% for resultado in resultados %}
-            <li class="list-group-item">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <strong>{{ resultado.nome }}</strong> 
-                        ({{ resultado.diretoria }}) - {{ resultado.data }}
-
-                        {% if resultado.descricao %}
-                        <div class="text-muted small mt-1">
-                            {{ resultado.descricao }}
-                        </div>
-                        {% endif %}
-                    </div>
-                    <a href="{{ url_for('visualizar_arquivo', diretoria=resultado.diretoria, arquivo=resultado.nome) }}" class="btn btn-sm btn-outline-primary">Visualizar</a>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>{{ resultado.nome }}</strong> ({{ resultado.diretoria }}) - {{ resultado.data }}
                 </div>
+                <a href="{{ url_for('visualizar_arquivo', diretoria=resultado.diretoria, arquivo=resultado.nome) }}" class="btn btn-sm btn-outline-primary">Visualizar</a>
             </li>
         {% endfor %}
     </ul>
 {% elif busca %}
     <div class="alert alert-warning mt-5">Nenhum resultado encontrado para "{{ busca }}".</div>
 {% endif %}
+
 
 {% endblock %}

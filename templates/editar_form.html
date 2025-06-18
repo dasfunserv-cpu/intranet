@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Arquivo{% endblock %}
+
+{% block content %}
+<h1>Editar Arquivo: {{ arquivo }}</h1>
+
+<form method="post">
+    <div class="mb-3">
+        <label for="novo_nome" class="form-label">Novo Nome do Arquivo:</label>
+        <input type="text" class="form-control" id="novo_nome" name="novo_nome" value="{{ arquivo }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="nova_descricao" class="form-label">Nova Descrição:</label>
+        <textarea class="form-control" id="nova_descricao" name="nova_descricao" rows="4">{{ descricao_atual }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-success">Salvar</button>
+    <a href="{{ url_for('editar_arquivo_lista') }}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

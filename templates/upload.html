@@ -19,22 +19,28 @@
 {% endwith %}
 
 
-    <div class="container border p-4 rounded bg-light">
-        <h4 class="mb-4">Enviar novo arquivo</h4>
-        <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="diretoria" class="form-label">Selecione a diretoria:</label>
-                <select name="diretoria" id="diretoria" class="form-select" required>
-                    {% for diretoria in diretorias %}
-                        <option value="{{ diretoria }}">{{ diretoria }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="arquivo" class="form-label">Escolha o arquivo:</label>
-                <input type="file" name="arquivo" id="arquivo" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-success">Enviar</button>
-        </form>
+<form method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label for="diretoria">Setor:</label>
+        <select name="diretoria" class="form-control" required>
+            {% for setor in diretorias %}
+                <option value="{{ setor }}">{{ setor }}</option>
+            {% endfor %}
+        </select>
     </div>
+
+    <div class="mb-3">
+        <label for="arquivo">Arquivo:</label>
+        <input type="file" name="arquivo" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="descricao">Descrição / Resumo:</label>
+        <textarea name="descricao" class="form-control" rows="3"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Enviar</button>
+</form>
+
+
 {% endblock %}

@@ -28,43 +28,34 @@
             <ul class="list-group mb-4">
                 {% for arquivo in arquivos %}
                     {% set ext = arquivo.nome.split('.')[-1].lower() %}
-                    <li class="list-group-item d-flex justify-content-between align-items-start flex-wrap">
-                        <div class="d-flex flex-column">
-                            <div class="d-flex align-items-center mb-1">
-                                {% if ext == 'pdf' %}
-                                    <i class="fas fa-file-pdf text-danger me-2"></i>
-                                {% elif ext in ['doc', 'docx'] %}
-                                    <i class="fas fa-file-word text-primary me-2"></i>
-                                {% elif ext in ['xls', 'xlsx', 'csv'] %}
-                                    <i class="fas fa-file-excel text-success me-2"></i>
-                                {% elif ext in ['jpg', 'jpeg', 'png'] %}
-                                    <i class="fas fa-file-image text-warning me-2"></i>
-                                {% elif ext == 'txt' %}
-                                    <i class="fas fa-file-lines text-muted me-2"></i>
-                                {% elif ext in ['mp4', 'webm'] %}
-                                    <i class="fas fa-file-video text-purple me-2"></i>
-                                {% else %}
-                                    <i class="fas fa-file text-dark me-2"></i>
-                                {% endif %}
-
-                                <a href="{{ url_for('visualizar_arquivo', diretoria=diretoria, arquivo=arquivo.nome) }}"
-                                   class="fw-bold text-decoration-none preview-link"
-                                   data-ext="{{ ext }}">
-                                    {{ arquivo.nome }}
-                                </a>
-                            </div>
-
-                            {% if arquivo.descricao %}
-                                <div class="small text-muted mb-1">
-                                    {{ arquivo.descricao }}
-                                </div>
+                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                        <div class="d-flex align-items-center">
+                            {% if ext == 'pdf' %}
+                                <i class="fas fa-file-pdf text-danger me-2"></i>
+                            {% elif ext in ['doc', 'docx'] %}
+                                <i class="fas fa-file-word text-primary me-2"></i>
+                            {% elif ext in ['xls', 'xlsx', 'csv'] %}
+                                <i class="fas fa-file-excel text-success me-2"></i>
+                            {% elif ext in ['jpg', 'jpeg', 'png'] %}
+                                <i class="fas fa-file-image text-warning me-2"></i>
+                            {% elif ext == 'txt' %}
+                                <i class="fas fa-file-lines text-muted me-2"></i>
+                            {% elif ext in ['mp4', 'webm'] %}
+                                <i class="fas fa-file-video text-purple me-2"></i>
+                            {% else %}
+                                <i class="fas fa-file text-dark me-2"></i>
                             {% endif %}
-                        </div>
 
+                            <a href="{{ url_for('visualizar_arquivo', diretoria=diretoria, arquivo=arquivo.nome) }}"
+                            class="fw-bold text-decoration-none preview-link"
+                            data-ext="{{ ext }}">
+                                {{ arquivo.nome }}
+                            </a>
+                        </div>
                         <div class="d-flex align-items-center mt-2 mt-md-0">
                             <span class="text-muted small me-3">{{ arquivo.data }}</span>
                             <a href="{{ url_for('abrir_arquivo_visualizador', diretoria=diretoria, arquivo=arquivo.nome) }}"
-                               class="btn btn-sm btn-outline-secondary" download>
+                            class="btn btn-sm btn-outline-secondary" download>
                                 <i class="fas fa-download me-1"></i> Baixar
                             </a>
                         </div>

@@ -5,14 +5,6 @@ from datetime import datetime
 from docx2pdf import convert
 from werkzeug.utils import secure_filename
 import subprocess
-import json
-import unicodedata
-
-def normalizar(texto):
-    if not texto:
-        return ''
-    return unicodedata.normalize('NFKD', texto).encode('ASCII', 'ignore').decode('ASCII').lower()
-
 
 def converter_para_pdf(input_path, output_path):
     try:
@@ -68,11 +60,9 @@ EXTENSOES_PERMITIDAS = {
 def extensao_permitida(filename):
     return '.' in filename and os.path.splitext(filename)[1].lower() in EXTENSOES_PERMITIDAS
 
-
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    busca = request.args.get('busca', '')
-    busca_normalizada = normalizar(busca)
+    busca = request.args.get('busca', '').lower()
     resultados = []
 
     quantidade_por_diretoria = {}
@@ -91,37 +81,18 @@ def index():
             caminho = os.path.join(BASE_DIR, diretoria)
             if not os.path.exists(caminho):
                 continue
-
-            # Carregar metadados da diretoria
-            metadados_path = os.path.join(caminho, 'metadados.json')
-            if os.path.exists(metadados_path):
-                with open(metadados_path, 'r', encoding='utf-8') as f:
-                    metadados = json.load(f)
-            else:
-                metadados = {}
-
-            for arquivo in os.listdir(caminho):
-                ext = os.path.splitext(arquivo)[1].lower()
-                if ext not in EXTENSOES_PERMITIDAS:
-                    continue
-
-                nome_normalizado = normalizar(arquivo)
-                descricao_normalizada = normalizar(metadados.get(arquivo, ''))
-
-                if busca_normalizada in nome_normalizado or busca_normalizada in descricao_normalizada:
-                    caminho_arquivo = os.path.join(caminho, arquivo)
-                    timestamp = os.path.getmtime(caminho_arquivo)
-                    data_modificacao = datetime.fromtimestamp(timestamp)
-
-                    resultados.append({
-                        'nome': arquivo,
-                        'diretoria': diretoria,
-                        'data': data_modificacao.strftime('%d/%m/%Y'),
-                        'timestamp': timestamp,
-                        'descricao': metadados.get(arquivo, '')
-                    })
-
-        # Ordena por data de modificação (mais recentes primeiro)
+            arquivos = [f for f in os.listdir(caminho)
+                        if busca in f.lower() and os.path.splitext(f)[1].lower() in EXTENSOES_PERMITIDAS]
+            for arquivo in arquivos:
+                caminho_arquivo = os.path.join(caminho, arquivo)
+                timestamp = os.path.getmtime(caminho_arquivo)
+                data_modificacao = datetime.fromtimestamp(timestamp)
+                resultados.append({
+                    'nome': arquivo,
+                    'diretoria': diretoria,
+                    'data': data_modificacao.strftime('%d/%m/%Y'),
+                    'timestamp': timestamp
+                })
         resultados.sort(key=lambda x: x['timestamp'], reverse=True)
 
     return render_template('index.html',
@@ -134,45 +105,26 @@ def index():
 
 @app.route('/recados/<diretoria>')
 def recados(diretoria):
-    busca = request.args.get('busca', '')
-    busca_normalizada = normalizar(busca)
+    busca = request.args.get('busca', '').lower()
     caminho = os.path.join(BASE_DIR, diretoria)
 
-    # Carregar metadados
-    metadados_path = os.path.join(caminho, 'metadados.json')
-    if os.path.exists(metadados_path):
-        with open(metadados_path, 'r', encoding='utf-8') as f:
-            metadados = json.load(f)
-    else:
-        metadados = {}
+    arquivos = [f for f in os.listdir(caminho)
+                if os.path.splitext(f)[1].lower() in EXTENSOES_PERMITIDAS]
+
+    if busca:
+        arquivos = [f for f in arquivos if busca in f.lower()]
 
     arquivos_listados = []
-
-    for arquivo in os.listdir(caminho):
-        ext = os.path.splitext(arquivo)[1].lower()
-        if ext not in EXTENSOES_PERMITIDAS:
-            continue
-
-        nome_normalizado = normalizar(arquivo)
-        descricao_normalizada = normalizar(metadados.get(arquivo, ''))
-
-        if busca:
-            if busca_normalizada not in nome_normalizado and busca_normalizada not in descricao_normalizada:
-                continue
-
+    for arquivo in arquivos:
         caminho_arquivo = os.path.join(caminho, arquivo)
         timestamp = os.path.getmtime(caminho_arquivo)
         data_modificacao = datetime.fromtimestamp(timestamp)
-        descricao = metadados.get(arquivo, '')
-
         arquivos_listados.append({
             'nome': arquivo,
             'data': data_modificacao.strftime('%d/%m/%Y'),
-            'timestamp': timestamp,
-            'descricao': descricao
+            'timestamp': timestamp
         })
 
-    # Ordena por data
     arquivos_listados.sort(key=lambda x: x['timestamp'], reverse=True)
 
     return render_template('recados.html',
@@ -180,13 +132,9 @@ def recados(diretoria):
                            arquivos=arquivos_listados,
                            busca=busca)
 
-
-
-
 @app.route('/recado/<diretoria>/<arquivo>')
 def abrir_arquivo_visualizador(diretoria, arquivo):
     return send_from_directory(os.path.join(BASE_DIR, diretoria), arquivo)
-
 
 @app.route('/visualizar/<diretoria>/<arquivo>')
 def visualizar_arquivo(diretoria, arquivo):
@@ -217,14 +165,11 @@ def visualizar_arquivo(diretoria, arquivo):
 
     return send_file(caminho_arquivo)
 
-import json
-
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
         diretoria = request.form.get('diretoria')
         file = request.files.get('arquivo')
-        descricao = request.form.get('descricao', '').strip()
 
         if diretoria not in DIRETORIAS:
             flash('Setor inválido.', 'danger')
@@ -241,102 +186,12 @@ def upload():
         filename = secure_filename(file.filename)
         setor_path = os.path.join(UPLOAD_FOLDER, diretoria)
         os.makedirs(setor_path, exist_ok=True)
-        caminho_arquivo = os.path.join(setor_path, filename)
-        file.save(caminho_arquivo)
-
-        # Salvar a descrição no metadados.json
-        metadados_path = os.path.join(setor_path, 'metadados.json')
-        if os.path.exists(metadados_path):
-            with open(metadados_path, 'r', encoding='utf-8') as f:
-                metadados = json.load(f)
-        else:
-            metadados = {}
-
-        metadados[filename] = descricao
-
-        with open(metadados_path, 'w', encoding='utf-8') as f:
-            json.dump(metadados, f, ensure_ascii=False, indent=4)
+        file.save(os.path.join(setor_path, filename))
 
         flash('Arquivo enviado com sucesso!', 'success')
         return redirect(url_for('upload'))
 
     return render_template('upload.html', diretorias=DIRETORIAS)
-
-
-@app.route('/editar_arquivo', methods=['GET'])
-def editar_arquivo_lista():
-    arquivos_listados = []
-
-    for diretoria in DIRETORIAS:
-        caminho = os.path.join(BASE_DIR, diretoria)
-        metadados_path = os.path.join(caminho, 'metadados.json')
-
-        # Carrega metadados
-        if os.path.exists(metadados_path):
-            with open(metadados_path, 'r', encoding='utf-8') as f:
-                metadados = json.load(f)
-        else:
-            metadados = {}
-
-        for arquivo in os.listdir(caminho):
-            ext = os.path.splitext(arquivo)[1].lower()
-            if ext in EXTENSOES_PERMITIDAS:
-                arquivos_listados.append({
-                    'nome': arquivo,
-                    'diretoria': diretoria,
-                    'descricao': metadados.get(arquivo, '')
-                })
-
-    return render_template('editar_lista.html', arquivos=arquivos_listados)
-
-
-@app.route('/editar_arquivo/<diretoria>/<arquivo>', methods=['GET', 'POST'])
-def editar_arquivo(diretoria, arquivo):
-    caminho = os.path.join(BASE_DIR, diretoria)
-    metadados_path = os.path.join(caminho, 'metadados.json')
-
-    # Carrega metadados existentes
-    if os.path.exists(metadados_path):
-        with open(metadados_path, 'r', encoding='utf-8') as f:
-            metadados = json.load(f)
-    else:
-        metadados = {}
-
-    descricao_atual = metadados.get(arquivo, '')
-
-    if request.method == 'POST':
-        novo_nome = request.form.get('novo_nome')
-        nova_descricao = request.form.get('nova_descricao', '')
-
-        # Atualiza descrição
-        if novo_nome != arquivo:
-            novo_caminho = os.path.join(caminho, novo_nome)
-
-            # Renomear o arquivo físico
-            os.rename(os.path.join(caminho, arquivo), novo_caminho)
-
-            # Atualizar chave no metadados
-            if arquivo in metadados:
-                metadados[novo_nome] = metadados.pop(arquivo)
-
-            arquivo = novo_nome
-
-        metadados[arquivo] = nova_descricao
-
-        # Salva metadados
-        with open(metadados_path, 'w', encoding='utf-8') as f:
-            json.dump(metadados, f, ensure_ascii=False, indent=4)
-
-        flash('Arquivo atualizado com sucesso!', 'success')
-        return redirect(url_for('editar_arquivo_lista'))
-
-    return render_template('editar_form.html',
-                           diretoria=diretoria,
-                           arquivo=arquivo,
-                           descricao_atual=descricao_atual)
-
-
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=True)
