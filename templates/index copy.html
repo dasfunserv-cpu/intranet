@@ -19,25 +19,14 @@
 {% endwith %}
 
 
-<h1 class="mb-4">Setores disponíveis:</h1>
-<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5">
-    {% for diretoria in diretorias %}
-    <div class="col">
-        <a href="/recados/{{ diretoria }}" class="text-decoration-none text-dark">
-            <div class="card h-100 shadow-sm border-0">
-                <div class="card-body d-flex flex-column">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <h5 class="card-title mb-0">{{ diretoria }}</h5>
-                        <span class="badge bg-secondary">{{ quantidade_por_diretoria[diretoria] }}</span>
-                    </div>
-                </div>
-            </div>
-        </a>
+    <h1 class="text-center mb-5">Escolha o setor:</h1>
+    <div class="d-flex flex-wrap justify-content-center gap-3 mb-5">
+        {% for diretoria in diretorias %}
+            <a href="/recados/{{ diretoria }}" class="btn btn-primary btn-lg">
+                {{ diretoria }}
+            </a>
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
-
-
 
     {% if busca and resultados %}
     <h2 class="mt-5">Resultados da busca por "{{ busca }}":</h2>

@@ -62,46 +62,31 @@ def extensao_permitida(filename):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    busca = request.args.get('busca', '').lower()
-    resultados = []
+    if request.method == 'POST':
+        diretoria = request.form.get('diretoria')
+        file = request.files.get('arquivo')
 
-    quantidade_por_diretoria = {}
+        if diretoria not in DIRETORIAS:
+            flash('Setor inválido.', 'danger')
+            return redirect(request.url)
 
-    for diretoria in DIRETORIAS:
-        caminho = os.path.join(BASE_DIR, diretoria)
-        if os.path.exists(caminho):
-            arquivos = [f for f in os.listdir(caminho)
-                        if os.path.splitext(f)[1].lower() in EXTENSOES_PERMITIDAS]
-            quantidade_por_diretoria[diretoria] = len(arquivos)
-        else:
-            quantidade_por_diretoria[diretoria] = 0
+        if not file or file.filename == '':
+            flash('Nenhum arquivo selecionado.', 'warning')
+            return redirect(request.url)
 
-    if busca:
-        for diretoria in DIRETORIAS:
-            caminho = os.path.join(BASE_DIR, diretoria)
-            if not os.path.exists(caminho):
-                continue
-            arquivos = [f for f in os.listdir(caminho)
-                        if busca in f.lower() and os.path.splitext(f)[1].lower() in EXTENSOES_PERMITIDAS]
-            for arquivo in arquivos:
-                caminho_arquivo = os.path.join(caminho, arquivo)
-                timestamp = os.path.getmtime(caminho_arquivo)
-                data_modificacao = datetime.fromtimestamp(timestamp)
-                resultados.append({
-                    'nome': arquivo,
-                    'diretoria': diretoria,
-                    'data': data_modificacao.strftime('%d/%m/%Y'),
-                    'timestamp': timestamp
-                })
-        resultados.sort(key=lambda x: x['timestamp'], reverse=True)
+        if not extensao_permitida(file.filename):
+            flash('Extensão de arquivo não permitida.', 'danger')
+            return redirect(request.url)
 
-    return render_template('index.html',
-                           diretorias=DIRETORIAS,
-                           quantidade_por_diretoria=quantidade_por_diretoria,
-                           resultados=resultados,
-                           busca=busca)
+        filename = secure_filename(file.filename)
+        setor_path = os.path.join(UPLOAD_FOLDER, diretoria)
+        os.makedirs(setor_path, exist_ok=True)
+        file.save(os.path.join(setor_path, filename))
 
+        flash('Arquivo enviado com sucesso!', 'success')
+        return redirect(url_for('index'))
 
+    return render_template('index.html', diretorias=DIRETORIAS)
 
 @app.route('/recados/<diretoria>')
 def recados(diretoria):
