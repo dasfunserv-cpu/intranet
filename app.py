@@ -54,7 +54,8 @@ DIRETORIAS = [
     'Jurídico',
     'Supervisão Administrativa',
     'Circulares e Instruções Normativas',
-    'Gestão de Recursos'
+    'Gestão de Recursos',
+    'Pró-Gestão'
 ]
 
 EXTENSOES_PERMITIDAS = {
