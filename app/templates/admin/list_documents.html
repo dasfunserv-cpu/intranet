@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block title %}Gerenciar Documentos - Administração{% endblock %}
+{% block header %}Gerenciar Documentos{% endblock %}
+
+{% block content %}
+<div class="card mb-4 shadow-sm">
+    <div class="card-body bg-light">
+        <form class="row g-2 align-items-end" action="{{ url_for('admin.list_docs') }}" method="GET">
+            <div class="col-md-4">
+                <label class="form-label small">Buscar</label>
+                <input type="text" name="q" class="form-control form-control-sm" value="{{ q or '' }}" placeholder="Título, arquivo, descrição ou tags">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label small">Setor</label>
+                <select name="sector_id" class="form-select form-select-sm">
+                    <option value="">Todos</option>
+                    {% for s in sectors %}
+                    <option value="{{ s.id }}" {% if current_sector == s.id %}selected{% endif %}>{{ s.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label small">Categoria</label>
+                <select name="category_id" class="form-select form-select-sm">
+                    <option value="">Todas</option>
+                    {% for c in categories %}
+                    <option value="{{ c.id }}" {% if current_category == c.id %}selected{% endif %}>{{ c.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2 d-flex gap-2">
+                <button type="submit" class="btn btn-primary btn-sm w-100">Filtrar</button>
+                <a href="{{ url_for('admin.list_docs') }}" class="btn btn-outline-secondary btn-sm w-100">Limpar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card mb-4 shadow-sm">
+    <div class="card-body bg-light d-flex justify-content-between align-items-center">
+        <div class="btn-group">
+            <a href="{{ url_for('admin.list_docs', filter='all') }}" class="btn btn-sm {% if current_filter == 'all' %}btn-primary{% else %}btn-outline-primary{% endif %}">Todos</a>
+            <a href="{{ url_for('admin.list_docs', filter='no_category') }}" class="btn btn-sm {% if current_filter == 'no_category' %}btn-danger{% else %}btn-outline-danger{% endif %}">Sem Categoria</a>
+            <a href="{{ url_for('admin.list_docs', filter='no_tags') }}" class="btn btn-sm {% if current_filter == 'no_tags' %}btn-warning{% else %}btn-outline-warning{% endif %}">Sem Tags</a>
+        </div>
+        <span class="text-muted small">Total: {{ documents|length }} arquivos</span>
+    </div>
+</div>
+
+<form action="{{ url_for('admin.bulk_update_docs') }}" method="POST">
+    <div class="card shadow-sm mb-4">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="text-center" style="width: 40px;"><input id="select-all" type="checkbox"></th>
+                            <th>Título</th>
+                            <th>Setor</th>
+                            <th>Categoria</th>
+                            <th>Status Info</th>
+                            <th class="text-end">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for doc in documents %}
+                        <tr>
+                            <td class="text-center"><input type="checkbox" class="doc-checkbox" name="doc_ids" value="{{ doc.id }}"></td>
+                            <td>
+                                <div class="fw-bold">{{ doc.title }}</div>
+                                <small class="text-muted">{{ doc.original_filename }}</small>
+                            </td>
+                            <td>{{ doc.sector_rel.name }}</td>
+                            <td>
+                                {% if doc.category_rel %}
+                                    <span class="badge bg-info text-dark">{{ doc.category_rel.name }}</span>
+                                {% else %}
+                                    <span class="badge bg-danger">S/ Categoria</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if not doc.tags %}
+                                    <span class="badge bg-warning text-dark"><i class="fas fa-exclamation-triangle"></i> Sem Tags</span>
+                                {% else %}
+                                    <span class="badge bg-success"><i class="fas fa-check"></i> OK</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-end pe-4">
+                                <div class="btn-group btn-group-sm">
+                                    <a href="{{ url_for('documents.view_document', doc_id=doc.id) }}" class="btn btn-outline-primary" title="Visualizar">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    {% if current_user.has_permission('edit_docs') %}
+                                    <a href="{{ url_for('admin.edit_doc', doc_id=doc.id) }}" class="btn btn-outline-secondary" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    {% endif %}
+                                    {% if current_user.has_permission('delete_docs') %}
+                                    <button type="submit" form="delete-form-{{ doc.id }}" class="btn btn-outline-danger" title="Excluir" onclick="return confirm('Tem certeza que deseja excluir permanentemente este documento?')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="row gy-3">
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Mover para Setor</label>
+                    <select name="bulk_sector_id" class="form-select">
+                        <option value="">-- Manter Setor Atual --</option>
+                        {% for s in sectors %}
+                        <option value="{{ s.id }}">{{ s.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Recategorizar</label>
+                    <select name="bulk_category_id" class="form-select">
+                        <option value="">-- Manter Categoria Atual --</option>
+                        <option value="-1">-- Sem Categoria --</option>
+                        {% for c in categories %}
+                        <option value="{{ c.id }}">{{ c.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Tags em lote</label>
+                    <input type="text" name="bulk_tags" class="form-control" placeholder="ex: portaria, urgente">
+                    <div class="form-text small">Use Vírgulas entre múltiplas tags.</div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Ação sobre tags</label>
+                    <select name="tag_action" class="form-select">
+                        <option value="replace">Substituir tags</option>
+                        <option value="append">Adicionar sem remover</option>
+                    </select>
+                </div>
+                <div class="col-md-8 d-flex align-items-end justify-content-end gap-2">
+                    <button type="submit" name="bulk_action" value="update" class="btn btn-success">Aplicar alterações aos documentos selecionados</button>
+                    {% if current_user.has_permission('delete_docs') %}
+                    <button type="submit" name="bulk_action" value="delete" class="btn btn-danger" onclick="return confirm('ATENÇÃO: Esta ação eliminará permanentemente os documentos selecionados. Deseja continuar?')">Excluir documentos selecionados</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+{% for doc in documents %}
+<form id="delete-form-{{ doc.id }}" action="{{ url_for('admin.delete_doc', doc_id=doc.id) }}" method="POST"></form>
+{% endfor %}
+
+{% endblock %}
+
+{% block script_extra %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const selectAll = document.getElementById('select-all');
+        const checkboxes = document.querySelectorAll('.doc-checkbox');
+
+        if (!selectAll) return;
+
+        selectAll.addEventListener('change', function () {
+            checkboxes.forEach(function (checkbox) {
+                checkbox.checked = selectAll.checked;
+            });
+        });
+    });
+</script>
+{% endblock %}

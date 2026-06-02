@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Intranet Funserv{% endblock %}</title>
@@ -15,6 +16,7 @@
             background-color: #f9f9f9;
             padding-top: 30px;
         }
+
         .logo {
             max-height: 50px;
             width: 50px;
@@ -23,30 +25,38 @@
             object-fit: contain;
             opacity: 0.0;
         }
+
         .logo.loaded {
             opacity: 1;
         }
 
         .divisoria-direita {
-        border-right: 1px solid #dee2e6; /* cor padrão do Bootstrap */
+            border-right: 1px solid #dee2e6;
+            /* cor padrão do Bootstrap */
         }
+
         a .card:hover {
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             transform: translateY(-10px);
             transition: all 0.2s;
-            color: #007bff; /* cor padrão do Bootstrap */
+            color: #007bff;
+            /* cor padrão do Bootstrap */
         }
+
         .navbar {
-            border-bottom: 1px solid #dee2e6; /* cor padrão do Bootstrap */
+            border-bottom: 1px solid #dee2e6;
+            /* cor padrão do Bootstrap */
         }
     </style>
 </head>
+
 <body>
 
     <!-- Navbar ocupando toda a largura -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm px-4 mb-4">
         <a class="navbar-brand d-flex align-items-center" href="{{ url_for('index') }}">
-            <img src="{{ url_for('static', filename='img/logo-funserv-200px.png') }}" alt="Logo Funserv" class="logo me-2">
+            <img src="{{ url_for('static', filename='img/logo-funserv-200px.png') }}" alt="Logo Funserv"
+                class="logo me-2">
             <span class="fs-4">Intranet Funserv</span>
         </a>
         <div class="collapse navbar-collapse">
@@ -78,12 +88,12 @@
 
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const logo = document.querySelector('.logo');
             if (logo.complete) {
                 logo.classList.add('loaded');
             } else {
-                logo.onload = function() {
+                logo.onload = function () {
                     logo.classList.add('loaded');
                 }
             }
@@ -92,4 +102,5 @@
 
 
 </body>
+
 </html>

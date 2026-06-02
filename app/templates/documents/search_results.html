@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Busca: {{ query }} - Intranet Funserv{% endblock %}
+{% block header %}Resultados para: "{{ query }}"{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width: 50px;">Tipo</th>
+                        <th>Documento</th>
+                        <th>Setor</th>
+                        <th>Descrição / Tags</th>
+                        <th>Data</th>
+                        <th class="text-end">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for doc in results %}
+                    {% set ext = doc.filename.split('.')[-1].lower() %}
+                    <tr>
+                        <td class="text-center">
+                            {% if ext == 'pdf' %}
+                                <i class="fas fa-file-pdf text-danger fa-lg"></i>
+                            {% elif ext in ['doc', 'docx'] %}
+                                <i class="fas fa-file-word text-primary fa-lg"></i>
+                            {% elif ext in ['xls', 'xlsx'] %}
+                                <i class="fas fa-file-excel text-success fa-lg"></i>
+                            {% else %}
+                                <i class="fas fa-file text-muted fa-lg"></i>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="fw-bold">{{ doc.title }}</div>
+                            <small class="text-muted">{{ doc.original_filename }}</small>
+                        </td>
+                        <td>
+                            <span class="badge bg-secondary">{{ doc.sector_rel.name }}</span>
+                        </td>
+                        <td>
+                            <div>{{ doc.description or '' }}</div>
+                            {% if doc.tags %}
+                                {% for tag in doc.tags.split(',') %}
+                                    <span class="badge bg-info text-dark small">{{ tag.strip() }}</span>
+                                {% endfor %}
+                            {% endif %}
+                        </td>
+                        <td>{{ doc.upload_date.strftime('%d/%m/%Y') }}</td>
+                        <td class="text-end">
+                            <div class="btn-group">
+                                <a href="{{ url_for('documents.serve_file', doc_id=doc.id) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{{ url_for('documents.serve_file', doc_id=doc.id) }}" download class="btn btn-sm btn-outline-secondary">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% if not results %}
+                    <tr>
+                        <td colspan="6" class="text-center py-5 text-muted">
+                            <i class="fas fa-search fa-3x mb-3 d-block"></i>
+                            Nenhum documento encontrado para sua busca.
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a href="{{ url_for('documents.index') }}" class="btn btn-outline-primary">Voltar para o Dashboard</a>
+</div>
+{% endblock %}

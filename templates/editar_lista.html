@@ -26,7 +26,12 @@
                 <strong>{{ arquivo.nome }}</strong> ({{ arquivo.diretoria }})<br>
                 <small>{{ arquivo.descricao }}</small>
             </div>
-            <a href="{{ url_for('editar_arquivo', diretoria=arquivo.diretoria, arquivo=arquivo.nome) }}" class="btn btn-sm btn-primary">Editar</a>
+            <div class="btn-group">
+                <a href="{{ url_for('editar_arquivo', diretoria=arquivo.diretoria, arquivo=arquivo.nome) }}" class="btn btn-sm btn-primary">Editar</a>
+                <form action="{{ url_for('excluir_arquivo', diretoria=arquivo.diretoria, arquivo=arquivo.nome) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir o arquivo &quot;{{ arquivo.nome }}&quot;?')">
+                    <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
+                </form>
+            </div>
         </li>
     {% endfor %}
 </ul>

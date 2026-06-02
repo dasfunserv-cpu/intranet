@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}{{ doc.title }} - Intranet Funserv{% endblock %}
+{% block header %}Visualizar Documento{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('documents.index') }}">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('documents.browse_all', sector_id=doc.sector_id) }}">{{ doc.sector_rel.name }}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ doc.title }}</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Sidebar with Metadata -->
+    <div class="col-lg-3">
+        <div class="card shadow-sm mb-4 border-0 rounded-4 overflow-hidden">
+            <div class="card-header bg-primary text-white py-3">
+                <h5 class="card-title mb-0"><i class="fas fa-info-circle me-2"></i>Informações</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="text-muted small fw-bold text-uppercase d-block mb-1">Título</label>
+                    <div class="fw-bold text-primary">{{ doc.title }}</div>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="text-muted small fw-bold text-uppercase d-block mb-1">Setor</label>
+                    <span class="badge bg-soft-primary text-primary px-3 py-2 rounded-pill border">
+                        <i class="fas fa-building me-1"></i> {{ doc.sector_rel.name }}
+                    </span>
+                </div>
+                
+                {% if doc.category_rel %}
+                <div class="mb-3">
+                    <label class="text-muted small fw-bold text-uppercase d-block mb-1">Categoria</label>
+                    <span class="badge bg-soft-info text-info px-3 py-2 rounded-pill border">
+                        <i class="fas fa-tag me-1"></i> {{ doc.category_rel.name }}
+                    </span>
+                </div>
+                {% endif %}
+                
+                <div class="mb-3">
+                    <label class="text-muted small fw-bold text-uppercase d-block mb-1">Data de Upload</label>
+                    <div class="text-dark">{{ doc.upload_date.strftime('%d/%m/%Y às %H:%M') }}</div>
+                </div>
+                
+                {% if doc.description %}
+                <div class="mb-3">
+                    <label class="text-muted small fw-bold text-uppercase d-block mb-1">Descrição</label>
+                    <div class="text-muted small">{{ doc.description }}</div>
+                </div>
+                {% endif %}
+                
+                <hr class="my-3 opacity-10">
+                
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('documents.serve_file', doc_id=doc.id) }}" download class="btn btn-outline-primary btn-sm rounded-pill">
+                        <i class="fas fa-download me-2"></i>Baixar Arquivo
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quick Navigation -->
+        <div class="card shadow-sm border-0 rounded-4 d-none d-lg-block">
+            <div class="card-body p-3">
+                <a href="{{ url_for('documents.browse_all') }}" class="btn btn-light w-100 text-start rounded-pill mb-2">
+                    <i class="fas fa-list me-2"></i>Ver todos
+                </a>
+                <a href="{{ url_for('documents.index') }}" class="btn btn-light w-100 text-start rounded-pill">
+                    <i class="fas fa-home me-2"></i>Início
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Document Viewer -->
+    <div class="col-lg-9">
+        <div class="card shadow-sm border-0 rounded-4 overflow-hidden" style="min-height: 80vh;">
+            <div class="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 text-dark"><i class="fas fa-eye me-2 text-primary"></i>Visualização</h5>
+                <div class="btn-group">
+                    <button id="zoom-out" class="btn btn-sm btn-light border" title="Aumentar zoom"><i class="fas fa-search-minus"></i></button>
+                    <button id="zoom-in" class="btn btn-sm btn-light border" title="Diminuir zoom"><i class="fas fa-search-plus"></i></button>
+                    <a href="{{ url_for('documents.serve_file', doc_id=doc.id) }}" target="_blank" class="btn btn-sm btn-primary" title="Abrir em nova aba">
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="card-body p-0 bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center">
+                {% set ext = doc.filename.split('.')[-1].lower() %}
+                {% if ext == 'pdf' %}
+                <iframe src="{{ url_for('documents.serve_file', doc_id=doc.id) }}#toolbar=0" width="100%" height="800px" class="border-0 shadow-sm"></iframe>
+                {% elif ext in ['png', 'jpg', 'jpeg', 'gif'] %}
+                <img src="{{ url_for('documents.serve_file', doc_id=doc.id) }}" class="img-fluid shadow-lg rounded m-4" style="max-height: 700px;">
+                {% else %}
+                <div class="text-center py-5">
+                    <i class="fas fa-file-alt fa-5x text-muted mb-4 d-block"></i>
+                    <h4>Visualização indisponível</h4>
+                    <p class="text-muted">Este tipo de arquivo ({{ ext|upper }}) não pode ser visualizado diretamente no navegador.</p>
+                    <a href="{{ url_for('documents.serve_file', doc_id=doc.id) }}" class="btn btn-primary rounded-pill mt-3 px-4">
+                        <i class="fas fa-download me-2"></i>Baixar para ver
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-soft-primary { background-color: rgba(13, 110, 253, 0.1); }
+    .bg-soft-info { background-color: rgba(13, 202, 240, 0.1); }
+    .breadcrumb-item + .breadcrumb-item::before { content: "\f105"; font-family: "Font Awesome 5 Free"; font-weight: 900; color: #adb5bd; }
+    
+    @media (max-width: 991.98px) {
+        .card-view { min-height: 50vh !important; }
+        iframe { height: 600px; }
+    }
+</style>
+
+<script>
+    // Placeholder for zoom functionality if needed with custom viewer
+    // For now, native viewer handles it via toolbar
+</script>
+{% endblock %}

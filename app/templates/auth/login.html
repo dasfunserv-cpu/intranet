@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Login - Intranet Funserv{% endblock %}
+{% block header %}Acesso Restrito{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white text-center">
+                <h5 class="mb-0">Identificação</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Usuário</label>
+                        <input type="text" class="form-control" id="username" name="username" required autofocus>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Senha</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Entrar</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-muted text-center small">
+                Sistema de Intranet Funserv
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

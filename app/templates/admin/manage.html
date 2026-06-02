@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+
+{% block title %}Administração - Intranet Funserv{% endblock %}
+{% block header %}Administração do Sistema{% endblock %}
+
+{% block content %}
+    <div class="row g-4">
+        {% if current_user.has_permission('manage_sectors') %}
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm border-0 bg-primary bg-opacity-10">
+                <div class="card-header bg-primary text-white">
+                    <i class="fas fa-sitemap me-2"></i> Gerenciar Setores
+                </div>
+                <div class="card-body">
+                    <p class="text-muted small">Adicione ou remova setores da Funserv.</p>
+                    <div class="list-group mb-3 overflow-auto" style="max-height: 250px;">
+                        {% for sector in sectors %}
+                        <div class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                            <span class="small">{{ sector.name }}</span>
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-outline-secondary border-0" data-bs-toggle="modal" data-bs-target="#editSectorModal{{ sector.id }}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <form action="{{ url_for('admin.delete_sector', sector_id=sector.id) }}" method="POST" class="d-inline">
+                                    <button type="submit" class="btn btn-outline-danger border-0" onclick="return confirm('Excluir setor {{ sector.name }}?')"><i class="fas fa-trash"></i></button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Modal Editar Setor -->
+                        <div class="modal fade" id="editSectorModal{{ sector.id }}" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog shadow-lg">
+                                <form action="{{ url_for('admin.edit_sector', sector_id=sector.id) }}" method="POST">
+                                    <div class="modal-content border-0">
+                                        <div class="modal-header bg-primary text-white">
+                                            <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Editar Setor</h5>
+                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="mb-3 text-dark">
+                                                <label class="form-label">Nome do Setor</label>
+                                                <input type="text" name="sector_name" class="form-control" value="{{ sector.name }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer bg-light">
+                                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn btn-sm btn-primary">Salvar Alterações</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <form method="POST" action="{{ url_for('admin.add_sector') }}">
+                        <div class="input-group input-group-sm">
+                            <input type="text" name="sector_name" class="form-control" placeholder="Novo Setor" required>
+                            <button class="btn btn-primary" type="submit">Adicionar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if current_user.has_permission('manage_categories') %}
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm border-0 bg-success bg-opacity-10">
+                <div class="card-header bg-success text-white">
+                    <i class="fas fa-tags me-2"></i> Gerenciar Categorias
+                </div>
+                <div class="card-body">
+                    <p class="text-muted small">Classificações (ex: Portaria, Edital).</p>
+                    <div class="list-group mb-3 overflow-auto" style="max-height: 250px;">
+                        {% for category in categories %}
+                        <div class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                            <span class="small">{{ category.name }}</span>
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-outline-secondary border-0" data-bs-toggle="modal" data-bs-target="#editCategoryModal{{ category.id }}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <form action="{{ url_for('admin.delete_category', category_id=category.id) }}" method="POST" class="d-inline">
+                                    <button type="submit" class="btn btn-outline-danger border-0" onclick="return confirm('Excluir categoria {{ category.name }}?')"><i class="fas fa-trash"></i></button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Modal Editar Categoria -->
+                        <div class="modal fade" id="editCategoryModal{{ category.id }}" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog shadow-lg">
+                                <form action="{{ url_for('admin.edit_category', category_id=category.id) }}" method="POST">
+                                    <div class="modal-content border-0">
+                                        <div class="modal-header bg-success text-white">
+                                            <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Editar Categoria</h5>
+                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="mb-3 text-dark">
+                                                <label class="form-label">Nome da Categoria</label>
+                                                <input type="text" name="category_name" class="form-control" value="{{ category.name }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer bg-light">
+                                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn btn-sm btn-success">Salvar Alterações</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <form method="POST" action="{{ url_for('admin.add_category') }}">
+                        <div class="input-group input-group-sm">
+                            <input type="text" name="category_name" class="form-control" placeholder="Nova Categoria" required>
+                            <button class="btn btn-success" type="submit">Adicionar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="row g-4 mt-2">
+        {% if current_user.has_permission('edit_docs') %}
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100 border-0 bg-warning bg-opacity-10">
+                <div class="card-header bg-warning text-dark">
+                    <i class="fas fa-file-signature me-2"></i> Revisão de Arquivos
+                </div>
+                <div class="card-body">
+                    <p class="text-muted small">Localize documentos sem categoria ou tags para organização do acervo.</p>
+                    <div class="d-grid gap-2">
+                        <a href="{{ url_for('admin.list_docs', filter='no_category') }}" class="btn btn-warning btn-sm">
+                            <i class="fas fa-exclamation-triangle me-1"></i> Documentos Sem Categoria
+                        </a>
+                        <a href="{{ url_for('admin.list_docs', filter='all') }}" class="btn btn-outline-warning btn-sm">
+                            <i class="fas fa-list me-1"></i> Ver Todos os Documentos
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if current_user.has_permission('manage_announcements') %}
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100 border-0 bg-danger bg-opacity-10">
+                <div class="card-header bg-danger text-white">
+                    <i class="fas fa-bullhorn me-2"></i> Mural de Avisos
+                </div>
+                <div class="card-body">
+                    <p class="text-muted small">Publique comunicados e avisos importantes na página inicial.</p>
+                    <div class="d-grid gap-2">
+                        <a href="{{ url_for('admin.manage_announcements') }}" class="btn btn-danger btn-sm">
+                            <i class="fas fa-edit me-1"></i> Gerenciar Mural
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    {% if current_user.has_permission('view_reports') %}
+    <div class="row mt-4 g-4">
+        <div class="col-12">
+            <div class="card shadow-sm border-0 bg-secondary bg-opacity-10">
+                <div class="card-header bg-secondary text-white">
+                    <i class="fas fa-chart-line me-2"></i> Relatórios e Auditoria de Acessos
+                </div>
+                <div class="card-body d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <p class="text-muted small mb-0">Acompanhe estatísticas completas, os documentos mais acessados e visualize o log detalhado com a **auditoria de ações e acessos** do sistema.</p>
+                    <a href="{{ url_for('admin.reports') }}" class="btn btn-secondary btn-sm px-4">
+                        <i class="fas fa-chart-bar me-1"></i> Acessar Painel de Auditoria
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+{% if current_user.has_permission('manage_users') %}
+<div class="row mt-4 g-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm h-100 border-0 bg-info bg-opacity-10">
+            <div class="card-header bg-info text-white">
+                <i class="fas fa-users me-2"></i> Gerenciar Usuários
+            </div>
+            <div class="card-body">
+                <p class="text-muted small">Crie novos usuários, edite perfis, altere senhas e ative ou desative contas de acesso.</p>
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('admin.list_users') }}" class="btn btn-info btn-sm text-white">
+                        <i class="fas fa-user-cog me-1"></i> Ir para Usuários
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow-sm h-100 border-0 bg-dark bg-opacity-10">
+            <div class="card-header bg-dark text-white">
+                <i class="fas fa-user-shield me-2"></i> Perfis e Permissões
+            </div>
+            <div class="card-body">
+                <p class="text-muted small">Defina o que cada perfil de acesso pode fazer no sistema (Admin, Gestor, Comum).</p>
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('admin.manage_roles') }}" class="btn btn-dark btn-sm">
+                        <i class="fas fa-key me-1"></i> Configurar Perfis
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

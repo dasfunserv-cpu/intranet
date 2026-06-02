@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Usuário - Intranet Funserv{% endblock %}
+{% block header %}Editar Usuário: {{ user.username }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-4">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-muted text-uppercase">Nome de Usuário</label>
+                        <input type="text" name="username" class="form-control form-control-lg rounded-3" value="{{ user.username }}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-muted text-uppercase">E-mail</label>
+                        <input type="email" name="email" class="form-control form-control-lg rounded-3" value="{{ user.email }}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-muted text-uppercase">Perfil de Acesso</label>
+                        <select name="role_id" class="form-select form-select-lg rounded-3" required>
+                            {% for role in roles %}
+                            <option value="{{ role.id }}" {{ 'selected' if user.role_id == role.id else '' }}>{{ role.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <small class="text-muted mt-1 d-block">Isso define quais permissões o usuário terá no sistema.</small>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold text-muted text-uppercase">Nova Senha <small>(Deixe em branco para não alterar)</small></label>
+                        <input type="password" name="password" class="form-control form-control-lg rounded-3" placeholder="Digite apenas se desejar mudar">
+                    </div>
+                    
+                    <hr class="my-4 opacity-10">
+                    
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="{{ url_for('admin.list_users') }}" class="btn btn-light rounded-pill px-4">Cancelar</a>
+                        <button type="submit" class="btn btn-primary rounded-pill px-5 fw-bold">Salvar Alterações</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card border-0 bg-light mt-4 rounded-4">
+            <div class="card-body text-center py-4">
+                <p class="mb-2 text-muted small fw-bold text-uppercase">Informações Adicionais</p>
+                <div class="d-flex justify-content-center gap-4">
+                    <div class="text-center">
+                        <p class="mb-0 text-dark fw-bold">{{ user.logs|length }}</p>
+                        <small class="text-muted">Ações de Auditoria</small>
+                    </div>
+                    <div class="text-center">
+                        <p class="mb-0 text-dark fw-bold">{{ "Ativo" if user.is_active else "Inativo" }}</p>
+                        <small class="text-muted">Status Atual</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
