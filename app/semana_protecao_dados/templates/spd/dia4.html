@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('spd.static', filename='css/spd.css') }}">
+
+<div class="spd-container">
+  <a href="{{ url_for('spd.index') }}" class="spd-voltar">← Voltar</a>
+
+  {% include 'spd/_nav.html' %}
+
+  <article class="spd-conteudo">
+    <h1>{{ conteudo.titulo }}</h1>
+    <p class="spd-subtitulo">{{ conteudo.subtitulo }}</p>
+    {% if conteudo.capa %}
+    <div class="spd-capa">
+      <img src="{{ conteudo.capa }}" alt="{{ conteudo.titulo }}">
+    </div>
+    {% endif %}
+
+
+    <div class="spd-intro-bloco">
+      {{ conteudo.intro | safe }}
+    </div>
+
+    <!-- Vídeo -->
+    <section class="spd-video-bloco">
+      <div class="spd-video-wrap">
+        <iframe
+          src="https://www.youtube.com/embed/{{ conteudo.video.youtube_id }}"
+          title="{{ conteudo.video.titulo }}"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+      <p class="spd-video-descricao">{{ conteudo.video.descricao }}</p>
+    </section>
+
+    <!-- Princípios -->
+    <section class="spd-secao">
+      <h2>Princípios em foco</h2>
+      {{ conteudo.principios.intro | safe }}
+
+      <div class="spd-principios-destaque">
+        {% for p in conteudo.principios.destaque %}
+          <div class="spd-principio-card">
+            <h3>{{ p.nome }}</h3>
+            <div class="spd-principio-texto">{{ p.texto | safe }}</div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <details class="spd-principios-outros">
+        <summary>{{ conteudo.principios.outros.titulo }}</summary>
+        <ul class="spd-lista-principios">
+          {% for p in conteudo.principios.outros.lista %}
+            <li><strong>{{ p.nome }}</strong> — {{ p.texto }}</li>
+          {% endfor %}
+        </ul>
+      </details>
+    </section>
+
+    <!-- Direitos -->
+    <section class="spd-secao">
+      <h2>Seus 9 direitos como titular</h2>
+      {{ conteudo.direitos.intro | safe }}
+
+      <div class="spd-direitos-grid">
+        {% for d in conteudo.direitos.lista %}
+          <div class="spd-direito-card">
+            <div class="spd-direito-icone">{{ d.icone }}</div>
+            <h4>{{ d.nome }}</h4>
+            <p>{{ d.texto }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- Como exercer -->
+    <section class="spd-secao">
+      <div class="spd-como-exercer">
+        {{ conteudo.como_exercer | safe }}
+      </div>
+    </section>
+
+    <div class="spd-fecho spd-fecho-grande">
+      {{ conteudo.fecho | safe }}
+    </div>
+  </article>
+</div>
+{% endblock %}

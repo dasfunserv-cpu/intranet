@@ -1,0 +1,112 @@
+titulo: "Você também é titular"
+subtitulo: "Vira a chave: o que a LGPD garante pra você"
+capa: "/semana-protecao-dados/static/img/capa_dia4.png"
+
+intro: |
+  <p>Nos três primeiros dias, você viu a LGPD pela perspectiva de quem <strong>trata dados pessoais</strong>: aprendeu a identificar quais informações devem ser protegidas, como reconhecer tentativas de golpes e quais cuidados tomar durante a rotina de trabalho.</p>
+
+  <p>Hoje, a perspectiva muda. Antes de sermos servidores, somos também <strong>titulares de dados</strong>. Sempre que fazemos um cadastro em um aplicativo, informamos o CPF em uma compra, utilizamos um plano de saúde, compartilhamos uma foto nas redes sociais ou fornecemos nossos dados para qualquer serviço, somos nós que estamos confiando nossas informações a outra organização.</p>
+
+  <p>Você já parou para pensar quantas empresas, órgãos públicos e aplicativos possuem seus dados? Será que todos realmente precisam dessas informações? Você sabe quais são os seus direitos quando seus dados são utilizados?</p>
+
+  <p>A LGPD existe justamente para garantir que cada pessoa tenha mais transparência, segurança e controle sobre seus próprios dados. E conhecer esses direitos é importante não apenas no ambiente de trabalho, mas também na vida pessoal.</p>
+
+  <p>Antes de explorarmos esses direitos, assista ao vídeo abaixo. Em apenas 3 minutos, ele apresenta de forma simples por que a proteção de dados faz parte do nosso dia a dia — dentro e fora do trabalho.</p>
+
+video:
+  titulo: "#PerguntePorQue — InternetLab"
+  youtube_id: "uHZs3ADb6RQ"
+  descricao: |
+    Experiência com câmera escondida mostra o quanto a gente entrega dados pessoais sem perguntar por quê. Cadastro em supermercado, foto pra entrar em prédio, CPF na farmácia — naturalizamos sem questionar.
+
+principios:
+  intro: |
+    <p>O vídeo toca em dois princípios centrais da LGPD que andam juntos: <strong>finalidade</strong> e <strong>necessidade</strong>. Existem outros oito princípios no art. 6º, mas esses dois são o coração do #PerguntePorQue.</p>
+  
+  destaque:
+    - nome: "Finalidade"
+      texto: |
+        Quem coleta seu dado precisa dizer <strong>pra que</strong>, e só pode usar pra aquilo. Se a farmácia pede CPF "pra desconto", não pode depois vender pra um banco. Se o supermercado faz cartão fidelidade, não pode usar seu endereço pra mandar propaganda de outra empresa.
+        
+        <em>A pergunta que ativa esse princípio: "pra que vocês vão usar?"</em>
+    
+    - nome: "Necessidade"
+      texto: |
+        Só pode pedir o <strong>mínimo</strong> necessário pra cumprir a finalidade. A padaria não precisa do seu CPF pra te vender pão. O app de calculadora não precisa da sua localização. O cadastro pra newsletter não precisa do seu RG.
+        
+        <em>A pergunta que ativa esse princípio: "esse dado é mesmo necessário pra isso?"</em>
+  
+  outros:
+    titulo: "Os outros 8 princípios (resumo)"
+    lista:
+      - nome: "Adequação"
+        texto: "O tratamento tem que ser compatível com a finalidade declarada."
+      - nome: "Livre acesso"
+        texto: "Você pode consultar seus dados e a forma como são tratados, de modo fácil e gratuito."
+      - nome: "Qualidade dos dados"
+        texto: "Dado tem que estar correto, claro e atualizado."
+      - nome: "Transparência"
+        texto: "Informação clara sobre quem trata, como, por quê."
+      - nome: "Segurança"
+        texto: "Medidas técnicas e organizativas pra proteger contra acesso indevido."
+      - nome: "Prevenção"
+        texto: "Adoção de medidas pra evitar danos antes que aconteçam."
+      - nome: "Não discriminação"
+        texto: "Dado não pode ser usado pra fins discriminatórios."
+      - nome: "Responsabilização"
+        texto: "Quem trata é responsável e tem que demonstrar conformidade."
+
+direitos:
+  intro: |
+    <p>Além dos princípios, você tem <strong>direitos</strong> que pode exigir de qualquer empresa, órgão ou app que trate seus dados (art. 18 da LGPD). Eles valem pra todo mundo, em qualquer relação, banco, plano de saúde, app de delivery, rede social, instituição pública.</p>
+  
+  lista:
+    - icone: "🔍"
+      nome: "Confirmação e acesso"
+      texto: "Saber se uma empresa tem dados seus, quais são, e ter acesso a eles."
+    
+    - icone: "✏️"
+      nome: "Correção"
+      texto: "Exigir que corrijam dado incompleto, inexato ou desatualizado."
+    
+    - icone: "🚫"
+      nome: "Anonimização ou bloqueio"
+      texto: "Pedir anonimização ou bloqueio de dado desnecessário ou excessivo."
+    
+    - icone: "🗑️"
+      nome: "Eliminação"
+      texto: "Pedir que apaguem seus dados quando não forem mais necessários."
+    
+    - icone: "📦"
+      nome: "Portabilidade"
+      texto: "Levar seus dados pra outra empresa ou serviço."
+    
+    - icone: "🔗"
+      nome: "Informação sobre compartilhamento"
+      texto: "Saber com quem seus dados foram compartilhados."
+    
+    - icone: "❓"
+      nome: "Informação antes de consentir"
+      texto: "Saber o que você perde se disser não ao tratamento."
+    
+    - icone: "↩️"
+      nome: "Revogação de consentimento"
+      texto: "Mudar de ideia depois de ter consentido."
+    
+    - icone: "🤖"
+      nome: "Revisão de decisão automatizada"
+      texto: "Pedir revisão humana de decisão tomada só por algoritmo (negativa de crédito, score, etc.)."
+
+como_exercer: |
+  <h3>Como exercer esses direitos</h3>
+  <p>Toda empresa ou órgão que trata dados pessoais é obrigado a oferecer um canal pra você exercer seus direitos. Normalmente:</p>
+  <ul>
+    <li><strong>Procure a Política de Privacidade</strong> da empresa/app/órgão. Lá costuma ter o e-mail do DPO ou um canal específico.</li>
+    <li><strong>Faça o pedido por escrito</strong>, identificando o direito que quer exercer e com qual dado.</li>
+    <li><strong>Prazo</strong>: a LGPD dá até 15 dias pra resposta em alguns casos.</li>
+    <li><strong>Se não atenderem</strong>, você pode reclamar à <strong>ANPD</strong> (Autoridade Nacional de Proteção de Dados) pelo site oficial: <a href="https://www.gov.br/anpd" target="_blank" rel="noopener">gov.br/anpd</a>.</li>
+  </ul>
+
+fecho: |
+  <p>O que o vídeo mostra é só a ponta do iceberg. A gente entrega dado o tempo todo, quase sempre sem perguntar por quê, porque acostumou. O exercício pra essa semana é simples: na próxima vez que alguém te pedir um dado pessoal, faça a pergunta. "Pra que vocês vão usar?" "Isso é mesmo necessário?".</p>
+  <p>Amanhã: <strong>Desafio da Segurança</strong>, um jogo que costura tudo que vimos essa semana numa história só. Sexta é também o <strong>Dia Nacional da Proteção de Dados</strong>.</p>

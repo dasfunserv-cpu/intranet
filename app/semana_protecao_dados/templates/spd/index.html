@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('spd.static', filename='css/spd.css') }}">
+
+<div class="spd-container">
+  <header class="spd-cabecalho">
+    <img src="{{ url_for('spd.static', filename='img/funserv_logo.png') }}" alt="FUNSERV" class="spd-cabecalho-logo">
+    <div class="spd-cabecalho-texto">
+      <h1>Semana de Proteção de Dados</h1>
+      <p class="spd-intro">
+        Cinco dias, cinco conteúdos curtos sobre LGPD na prática.
+        Um novo conteúdo é liberado a cada dia útil entre 13 e 17 de julho.
+      </p>
+    </div>
+  </header>
+
+  {% include 'spd/_nav.html' %}
+
+  <div class="spd-capa">
+  <img src="{{ url_for('spd.static', filename='img/capa_index.png') }}" alt="Semana de Proteção de Dados">
+  </div>
+
+  {% if dicas %}
+  <section class="spd-carrossel" aria-label="Dicas de proteção de dados">
+    <div class="spd-carrossel-titulo">💡 Drops de LGPD</div>
+
+    <div class="spd-carrossel-palco">
+      {% for dica in dicas %}
+        <div class="spd-dica spd-dica-{{ dica.tipo }}" data-idx="{{ loop.index0 }}">
+          {% if dica.tipo == 'frase' %}
+            <p class="spd-dica-texto">{{ dica.texto }}</p>
+
+          {% elif dica.tipo == 'pergunta' %}
+            <p class="spd-dica-pergunta">{{ dica.pergunta }}</p>
+            <p class="spd-dica-resposta">{{ dica.resposta }}</p>
+
+          {% elif dica.tipo == 'mito' %}
+            <div class="spd-dica-mito">
+              <span class="spd-tag spd-tag-mito">Mito</span>
+              <p>{{ dica.mito }}</p>
+            </div>
+            <div class="spd-dica-verdade">
+              <span class="spd-tag spd-tag-verdade">Verdade</span>
+              <p>{{ dica.verdade }}</p>
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+
+    <button class="spd-carrossel-btn spd-carrossel-prev" aria-label="Anterior">‹</button>
+    <button class="spd-carrossel-btn spd-carrossel-next" aria-label="Próximo">›</button>
+
+    <div class="spd-progresso">
+      <div class="spd-progresso-trilho">
+        <div class="spd-progresso-preenchido"></div>
+      </div>
+    </div>
+  </section>
+
+  <script src="{{ url_for('spd.static', filename='js/carrossel.js') }}"></script>
+  {% endif %}
+</div>
+{% endblock %}

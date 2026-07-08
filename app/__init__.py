@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from config import Config
+from app.semana_protecao_dados import bp as spd_bp #<------------- Adicionado para registrar o blueprint da semana de proteção de dados
 import os
 
 db = SQLAlchemy()
@@ -13,7 +14,8 @@ login_manager.login_message_category = "info"
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
-
+    app.register_blueprint(spd_bp) #<------------- Adicionado para registrar o blueprint da semana de proteção de dados
+    
     db.init_app(app)
     login_manager.init_app(app)
 

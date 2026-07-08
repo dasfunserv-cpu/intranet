@@ -1,0 +1,16 @@
+<nav class="spd-nav">
+  {% for i in range(1, 6) %}
+    {% if i <= liberados %}
+      <a href="{{ url_for('spd.dia', n=i) }}"
+         class="spd-nav-item {% if n is defined and n == i %}ativo{% endif %}">
+        <span class="spd-nav-num">Dia {{ i }}</span>
+        <span class="spd-nav-titulo">{{ titulos[i] }}</span>
+      </a>
+    {% else %}
+      <span class="spd-nav-item bloqueado" title="Disponível em breve">
+        <span class="spd-nav-num">Dia {{ i }} 🔒</span>
+        <span class="spd-nav-titulo">{{ titulos[i] }}</span>
+      </span>
+    {% endif %}
+  {% endfor %}
+</nav>

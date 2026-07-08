@@ -1,0 +1,148 @@
+/* === Carrossel de dicas === */
+.spd-carrossel {
+  position: relative;
+  margin: 2.5rem 0;
+  background: linear-gradient(135deg, #2c5aa0 0%, #1e3a6f 100%);
+  border-radius: 12px;
+  padding: 2rem 4rem;
+  color: #fff;
+  min-height: 220px;
+  overflow: hidden;
+}
+
+.spd-carrossel-titulo {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin-bottom: 1rem;
+}
+
+.spd-carrossel-palco {
+  position: relative;
+  min-height: 120px;
+}
+
+.spd-dica {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  pointer-events: none;
+}
+
+.spd-dica.ativa {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Tipo: frase */
+.spd-dica-texto {
+  font-size: 1.4rem;
+  line-height: 1.5;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Tipo: pergunta */
+.spd-dica-pergunta {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem;
+}
+.spd-dica-resposta {
+  font-size: 1rem;
+  line-height: 1.5;
+  opacity: 0.92;
+  margin: 0;
+}
+
+/* Tipo: mito vs verdade */
+.spd-dica-mito,
+.spd-dica-verdade {
+  margin-bottom: 0.75rem;
+}
+.spd-dica-mito p,
+.spd-dica-verdade p {
+  margin: 0.35rem 0 0;
+  font-size: 1rem;
+  line-height: 1.45;
+}
+.spd-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+}
+.spd-tag-mito {
+  background: rgba(255, 100, 100, 0.25);
+  color: #ffd0d0;
+}
+.spd-tag-verdade {
+  background: rgba(100, 255, 150, 0.25);
+  color: #d0ffd8;
+}
+
+/* Botões de navegação */
+.spd-carrossel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  color: #fff;
+  font-size: 1.8rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+  line-height: 1;
+}
+.spd-carrossel-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+.spd-carrossel-prev { left: 0.75rem; }
+.spd-carrossel-next { right: 0.75rem; }
+
+/* Barra de progresso */
+.spd-progresso {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.spd-progresso-trilho {
+  flex: 1;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.spd-progresso-preenchido {
+  height: 100%;
+  width: 0%;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 2px;
+  /* sem transition — controlado por JS via rAF */
+}
+
+.spd-progresso-contador {
+  font-size: 0.8rem;
+  font-weight: 600;
+  opacity: 0.7;
+  white-space: nowrap;
+  min-width: 3.5em;
+  text-align: right;
+}

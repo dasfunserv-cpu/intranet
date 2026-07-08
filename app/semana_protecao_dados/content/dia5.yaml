@@ -1,0 +1,161 @@
+titulo: "Missão LGPD"
+subtitulo: "Um dia de trabalho. Cinco decisões. Vamos ver como você se sai."
+capa: "/semana-protecao-dados/static/img/capa_dia5.png"
+
+
+intro: |
+  <p>Hoje é <strong>17 de julho - Dia Nacional da Proteção de Dados Pessoais</strong> e também o último dia da nossa semana de conscientização.</p>
+
+  <p>Ao longo dos últimos dias, conversamos sobre o que são dados pessoais, como identificar tentativas de golpes, quais cuidados tomar na rotina de trabalho e quais são os direitos de cada titular. Agora chegou a hora de juntar tudo isso em uma única experiência.</p>
+
+  <p>Você vai acompanhar um dia comum de trabalho na FUNSERV. Ao longo da jornada, cinco situações do cotidiano vão surgir. Em cada uma delas, será preciso decidir como agir. Não há cronômetro nem pressão: a proposta é refletir sobre cada escolha e colocar em prática os conhecimentos adquiridos durante a semana.</p>
+
+  <p>No final, você verá como suas decisões se alinham às boas práticas de proteção de dados e aos princípios da LGPD. Afinal, proteger dados não depende de grandes ações, mas das pequenas decisões que tomamos todos os dias.</p>
+
+  <p><strong>Preparado para a missão?</strong></p>
+
+
+cenas:
+  - id: 1
+    titulo: "8h12 — Caixa de entrada"
+    imagem: "/semana-protecao-dados/static/img/cena1.png"
+    narrativa: |
+      <p>Você senta, abre o e-mail. Entre os não lidos, um chama atenção:</p>
+      <blockquote>
+        <p><strong>De:</strong> Diretoria FUNSERV &lt;diretoria-funserv@gestao-publica.net&gt;<br>
+        <strong>Assunto:</strong> URGENTE - Envio de planilha de beneficiários</p>
+        <p>"Prezado(a), precisamos da planilha completa de beneficiários (nome, CPF, valor) encaminhada AINDA HOJE para o consultor externo contratado. Responder este e-mail com o arquivo em anexo. Atenciosamente, Diretoria."</p>
+      </blockquote>
+      <p>O e-mail tem urgência, vem "da diretoria", e tá com pressa. <strong>O que você faz?</strong></p>
+    alternativas:
+      - id: a
+        texto: "Anexa a planilha e responde rapidinho. É a diretoria, é urgente."
+        correta: false
+        feedback: |
+          <p><strong>Você acabou de cair num phishing clássico.</strong></p>
+          <p>O domínio do remetente é <code>gestao-publica.net</code>, não o domínio da FUNSERV. "Diretoria" foi só o nome exibido, qualquer um pode escrever isso no campo "nome do remetente". A urgência forçada (<em>"AINDA HOJE"</em>) é a tática mais antiga do livro: te fazer agir antes de pensar.</p>
+          <p>Em algumas horas, dados de centenas de beneficiários estarão circulando fora da instituição. E você assinou o e-mail.</p>
+      - id: b
+        texto: "Para. Verifica o domínio do remetente e confirma com a diretoria por outro canal antes de qualquer coisa."
+        correta: true
+        feedback: |
+          <p><strong>Boa.</strong> Olhar o domínio do remetente é o reflexo número um. <code>gestao-publica.net</code> não é a FUNSERV, é phishing usando engenharia social com pressão hierárquica.</p>
+          <p>Confirmar por outro canal (telefone, presencialmente, chat interno) antes de mandar qualquer dado é o que distingue quem cai de quem não cai. Pressa é o melhor amigo do golpista.</p>
+
+  - id: 2
+    titulo: "10h30 — Formulário pra um evento"
+    imagem: "/semana-protecao-dados/static/img/cena2.png"
+    narrativa: |
+      <p>Sua chefia te chama: a FUNSERV vai oferecer uma palestra interna sobre planejamento financeiro pra servidores interessados. Você precisa montar o formulário de inscrição pra hoje à tarde.</p>
+      <p>Você abre o Google Forms (ou o que usar) e começa a pensar nos campos. <strong>Quais informações você inclui?</strong></p>
+    alternativas:
+      - id: a
+        texto: "Nome completo, e-mail funcional, setor, matrícula, CPF, data de nascimento, nome do cachorro, telefone pessoal, endereço residencial. Quanto mais informação, melhor pro cadastro."
+        correta: false
+        feedback: |
+          <p><strong>Você violou o princípio da necessidade (LGPD art. 6º, III).</strong></p>
+          <p>Pra inscrever alguém numa palestra interna, você precisa saber <em>quem é, como avisar, e talvez confirmar que é servidor</em>. Só isso. CPF, data de nascimento, telefone pessoal, endereço, nada disso é necessário pra essa finalidade.</p>
+          <p>"Coletar mais por garantia" é justamente o que a LGPD veio combater. Dado coletado é dado que pode vazar.</p>
+      - id: b
+        texto: "Nome, e-mail funcional e setor. Só o suficiente pra confirmar inscrição e mandar lembrete."
+        correta: true
+        feedback: |
+          <p><strong>Exato. Princípio da necessidade aplicado.</strong></p>
+          <p>Coleta só o mínimo indispensável pra cumprir a finalidade declarada. Se depois precisar de mais algum dado (preferência alimentar pra coffee break, por exemplo), você coleta naquele momento, com finalidade clara.</p>
+          <p>Bônus: menos campos = mais gente preenche até o fim. Princípio da LGPD e UX andam juntos.</p>
+
+  - id: 3
+    titulo: "14h15 — Publicando o relatório"
+    imagem: "/semana-protecao-dados/static/img/cena3.png"
+    narrativa: |
+      <p>A palestra acabou. Foi um sucesso. A chefia te pede pra publicar no portal da intranet um relatório curto: <em>quantas pessoas participaram, de quais setores, e o engajamento geral</em>.</p>
+      <p>Junto, te mandam a lista de inscrição pra "dar transparência": <em>nome completo e e-mail de cada participante</em>. A ideia é anexar essa lista no fim do relatório. Você tá pronto pra publicar. <strong>O que faz primeiro?</strong></p>
+    alternativas:
+      - id: a
+        texto: "Publica com a lista anexada. É só nome e e-mail de gente que participou, não tem nada sensível."
+        correta: false
+        feedback: |
+          <p><strong>Nome e e-mail são dados pessoais, e a lista vira pública pra todo mundo.</strong></p>
+          <p>As pessoas se inscreveram pra <em>assistir a palestra</em>, não pra ter o e-mail exposto no portal. É um <strong>uso diferente</strong> do dado, sem autorização de ninguém.</p>
+          <p>E tem o risco prático: uma lista de e-mails publicada é prato cheio pra phishing e spam, exatamente o que a Semana de Proteção de Dados tá tentando evitar.</p>
+      - id: b
+        texto: "Publica só os números agregados, total de participantes e setores, e deixa a lista nominal de fora."
+        correta: true
+        feedback: |
+          <p><strong>Esse é o caminho.</strong></p>
+          <p>Pra dar transparência, o que importa é o <strong>dado agregado</strong>: quantos vieram, de quais setores, o engajamento. Nada disso precisa de nome ou e-mail individual.</p>
+          <p>A lista nominal tem uma finalidade interna (controle de inscrição) e não vira conteúdo público. Se em algum momento alguém precisasse divulgar nomes, aí sim entraria a autorização específica de cada pessoa, mas pra um relatório de transparência, o agregado resolve.</p>
+
+  - id: 4
+    titulo: "15h40 — Telefone tocando"
+    imagem: "/semana-protecao-dados/static/img/cena4.png"
+    narrativa: |
+      <p>Toca o telefone. Do outro lado:</p>
+      <blockquote>
+        <p><em>"Boa tarde, aqui é o Ricardo Uva, beneficiário. Eu precisava de cópia dos meus atestados médicos e laudos periciais que estão aí com vocês. Pode me mandar por e-mail mesmo, ou WhatsApp se for mais rápido. Mas tem que ser agora!!!."</em></p>
+      </blockquote>
+      <p>A voz é firme, o nome confere com o cadastro. Ele tem direito à informação, afinal, são dados dele. Mas o canal pelo qual ele pediu... <strong>o que você faz?</strong></p>
+    alternativas:
+      - id: a
+        texto: "Confirma o nome e CPF dele por telefone, busca os documentos no sistema e manda por e-mail comum mesmo, pra ser ágil."
+        correta: false
+        feedback: |
+          <p><strong>Você atendeu o direito, mas pelo canal errado, e com dado sensível.</strong></p>
+          <p>Atestados e laudos médicos são <strong>dados sensíveis</strong> (LGPD art. 5º, II). E você: (1) confirmou identidade só pela voz, (2) enviou por e-mail comum, (3) potencialmente expondo histórico de saúde de um beneficiário pra quem interceptar o e-mail.</p>
+          <p>Direito de acesso existe, mas a forma de exercer também tem regras. Atender mal pode ser pior que não atender.</p>
+      - id: b
+        texto: "Explica que o direito de acesso existe sim, e orienta o caminho oficial: protocolo formal com validação de identidade e entrega por canal seguro."
+        correta: true
+        feedback: |
+          <p><strong>Atendimento correto.</strong></p>
+          <p>Você reconheceu o direito (não negou, não dificultou), mas orientou pro canal adequado, porque dado sensível exige proteção reforçada. Validação de identidade presencial ou via documento oficial, entrega por canal seguro (presencial, e-mail institucional, etc.).</p>
+          <p>Atender bem é mais importante que atender rápido.</p>
+
+  - id: 5
+    titulo: "17h22 — A descoberta"
+    imagem: "/semana-protecao-dados/static/img/cena5.png"
+    narrativa: |
+      <p>Quase fim do expediente. Você revisa a caixa de enviados antes de fechar e... gela.</p>
+      <p>O e-mail que você mandou às 16h pra um fornecedor externo, com aquele relatório que ele pediu, você anexou a planilha errada. Em vez do relatório consolidado, foi a base bruta com nomes, CPFs e dados de contato de <strong>20 servidores</strong>.</p>
+      <p>O fornecedor é externo. O e-mail já foi. <strong>O que você faz?</strong></p>
+    alternativas:
+      - id: a
+        texto: "Tenta cancelar o envio no Outlook. Se não der, espera segunda pra ver se ninguém percebeu. Talvez ele nem abra."
+        correta: false
+        feedback: |
+          <p><strong>Esconder é sempre pior que reportar.</strong></p>
+          <p>A LGPD <em>não</em> pune quem reporta incidente, pune quem omite. O art. 48 obriga o controlador a comunicar à ANPD e aos titulares incidentes que possam causar risco ou dano relevante. Mas isso é decisão do DPO e da instituição, sua obrigação é avisar internamente, com agilidade. Quanto mais cedo o DPO sabe, melhor a resposta institucional.</p>
+          <p>Esperar segunda pode significar que o dado já circulou. E você fica como cúmplice de omissão.</p>
+      - id: b
+        texto: "Avisa imediatamente sua chefia e o DPO, documentando exatamente o que aconteceu: horário, destinatário, conteúdo do anexo, lista das pessoas afetadas."
+        correta: true
+        feedback: |
+          <p><strong>Resposta a incidente do jeito certo.</strong></p>
+          <p>Três coisas que você fez bem: (1) <strong>velocidade</strong>, quanto antes o DPO sabe, melhor; (2) <strong>transparência</strong>, não tentou esconder ou minimizar; (3) <strong>documentação</strong>,  informou exatamente o que vazou, o que é essencial pra avaliar risco e cumprir o art. 48.</p>
+          <p>Erro humano acontece. O que distingue uma cultura madura de proteção de dados é como ela <em>responde</em> ao erro, e você acabou de mostrar a resposta certa.</p>
+
+mensagens_score:
+  5: |
+    <h3>5/5 — Impecável</h3>
+    <p>Você é o pesadelo de qualquer engenheiro social. Mais que isso: você é o tipo de servidor que faz uma instituição inteira ser mais segura. A FUNSERV, e os beneficiários, agradecem.</p>
+  4: |
+    <h3>4/5 — Quase lá</h3>
+    <p>Uma escorregada, mas você sabe onde pisa. Vale revisar o conteúdo do dia em que escorregou, provavelmente algum detalhe específico, não a base. Continua afiado.</p>
+  3: |
+    <h3>3/5 — Tem base</h3>
+    <p>Você pega o essencial, mas alguns pontos importantes ainda escapam. Vale voltar nos dias da semana com calma, especialmente os interativos do Dia 1 e Dia 2. A boa notícia: agora você sabe onde mirar.</p>
+  2: |
+    <h3>2/5 — Hoje foi difícil</h3>
+    <p>Que bom que isso aqui é simulação. Vale dedicar um tempo pra revisitar os conteúdos da semana antes que situações parecidas aconteçam de verdade. Não desanima, todo mundo já caiu em alguma versão dessas.</p>
+  1: |
+    <h3>1/5 — Foi só um treino</h3>
+    <p>Vale voltar os conteúdos com calma e refazer o caminho. Proteção de dados é músculo: treina, treina, e um dia vira reflexo. Você acabou de descobrir onde precisa treinar mais, isso já é metade do caminho.</p>
+  0: |
+    <h3>0/5 — Tudo bem</h3>
+    <p>É exatamente pra isso que serve a campanha. Volta pro Dia 1 sem pressa e revisita cada conteúdo. Você não está sozinho nessa, e ninguém nasce sabendo.</p>
+
+fecho: |
+  <p>Sexta-feira, 17 de julho. Foi assim a primeira <strong>Semana de Proteção de Dados</strong> da FUNSERV.</p>
+  <p>Cinco dias, cinco temas, e uma única ideia: proteção de dados não é assunto de manual jurídico, é cultura, e cultura se constrói no dia a dia, decisão por decisão.</p>
+  <p>O conteúdo dessa semana continua disponível aqui. Volte quando precisar. E qualquer dúvida sobre LGPD na FUNSERV, fale com o DPO.</p>
+  <p><strong>Obrigado por participar.</strong></p>

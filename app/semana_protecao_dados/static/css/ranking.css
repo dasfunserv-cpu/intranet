@@ -1,0 +1,77 @@
+/* ============================================
+   RANKING — Top 5 do Dia 1. Formulário de envio,
+   aviso de privacidade, status, lista do ranking.
+   ============================================ */
+
+.spd-ranking-form {
+  margin: 1.5rem 0;
+}
+.spd-ranking-form input {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  margin-right: 0.5rem;
+  width: 220px;
+}
+
+.spd-ranking-status {
+  padding: 1rem;
+  background: #eef5ff;
+  border-radius: 6px;
+  margin: 1rem 0;
+  color: #2c5aa0;
+}
+
+.spd-aviso-privacidade {
+  font-size: 0.8rem;
+  color: #888;
+  margin-top: 0.75rem !important;
+  font-style: italic;
+}
+
+/* Lista do ranking */
+.spd-ranking {
+  margin-top: 2.5rem;
+  background: #fafafa;
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+.spd-ranking h3 { margin-top: 0; }
+
+.spd-ranking-lista {
+  list-style: none;
+  counter-reset: rank;
+  padding: 0;
+  margin: 0;
+}
+.spd-ranking-lista li {
+  counter-increment: rank;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #eee;
+}
+.spd-ranking-lista li:last-child { border-bottom: none; }
+.spd-ranking-lista li::before {
+  content: counter(rank) "º";
+  font-weight: 700;
+  color: #2c5aa0;
+  margin-right: 0.75rem;
+  min-width: 30px;
+}
+.spd-ranking-nome { flex: 1; font-weight: 500; }
+.spd-ranking-score {
+  background: #2c5aa0;
+  color: #fff;
+  padding: 0.2rem 0.7rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.spd-ranking-vazio {
+  color: #888;
+  font-style: italic;
+  text-align: center;
+}

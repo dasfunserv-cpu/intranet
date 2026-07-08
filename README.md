@@ -14,6 +14,7 @@ Este projeto oferece um portal interno com:
 - anúncios internos
 - administração de usuários, setores, categorias e documentos
 - logs de auditoria e acesso
+- microsite gamificado "Semana de Proteção de Dados" (LGPD), com conteúdo diário, quiz e ranking
 
 ## Tecnologias
 
@@ -39,6 +40,12 @@ O arquivo `requirements.txt` contém as dependências usadas:
 - pywin32==310
 - tqdm==4.67.1
 - Werkzeug==3.1.3
+
+> **Atenção:** o módulo "Semana de Proteção de Dados" (`app/semana_protecao_dados`) usa **PyYAML** para carregar o conteúdo dos arquivos `.yaml`, mas essa biblioteca **não está listada em `requirements.txt`**. Instale manualmente antes de rodar a aplicação:
+>
+> ```powershell
+> pip install pyyaml
+> ```
 
 ## Instalação
 
@@ -85,6 +92,18 @@ Esse script também tenta migrar dados da pasta `app/recados` para o banco e par
 
 > Observação: o diretório de uploads é `app/uploads`. O aplicativo cria essa pasta automaticamente se ela não existir.
 
+## Módulo: Semana de Proteção de Dados
+
+Blueprint independente (`spd`, prefixo de URL `/semana-protecao-dados`), registrado em `app/__init__.py` e acessível pelo menu lateral em `app/templates/base.html`.
+
+Funcionamento:
+- **Conteúdo por dia**: os textos, quiz e categorias de cada um dos 5 dias ficam em arquivos YAML (`app/semana_protecao_dados/content/dia1.yaml` a `dia5.yaml`) e `dicas.yaml`, carregados por `content_loader.py` (via **PyYAML**, ver seção Dependências acima).
+- **Liberação progressiva (gating)**: `gating.py` controla quais dias estão liberados com base na data atual, entre `INICIO_CAMPANHA` (2026-06-20) e `FIM_CAMPANHA` (2026-07-10). Antes do início, é exibida uma tela de contagem regressiva; após o fim, todos os 5 dias ficam permanentemente disponíveis. Para alterar o período da campanha, edite essas duas constantes.
+- **Ranking/quiz**: `ranking.py` recebe as submissões do quiz de cada dia (rota `POST /dia/<n>/ranking`) e persiste o placar em arquivos JSON dentro de `app/semana_protecao_dados/data/` (um por dia, ex.: `ranking_dia1.json`), sem usar o banco de dados principal. Limita 1 registro por IP/dia e mantém apenas o Top 5 na resposta pública (nome, acertos, tempo e data — IP e User-Agent não são expostos).
+- **Assets próprios**: CSS, JS e imagens do módulo ficam isolados em `app/semana_protecao_dados/static/`.
+
+> Observação: a pasta `app/semana_protecao_dados/data/` guarda os arquivos JSON de ranking gerados em tempo de execução — não apague o `.gitkeep` nem os `.json` gerados se quiser preservar o histórico do ranking.
+
 ## Estrutura básica
 
 - `run.py`: ponto de entrada da aplicação
@@ -92,6 +111,7 @@ Esse script também tenta migrar dados da pasta `app/recados` para o banco e par
 - `config.py`: configurações do app
 - `app/models.py`: modelos do banco de dados
 - `app/auth`, `app/admin`, `app/documents`: rotas e funcionalidades principais
+- `app/semana_protecao_dados`: módulo/blueprint da campanha "Semana de Proteção de Dados" (conteúdo, quiz e ranking em LGPD)
 - `requirements.txt`: lista de dependências
 
 ## Nota

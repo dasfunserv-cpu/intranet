@@ -1,0 +1,139 @@
+titulo: "Caça ao Phishing"
+subtitulo: "Aprenda a identificar o golpe mais comum da caixa de entrada"
+capa: "/semana-protecao-dados/static/img/capa_dia2.png"
+intro: |
+  <p><strong>Phishing</strong> é um golpe em que criminosos se passam por empresas, órgãos públicos, bancos ou pessoas de confiança para enganar a vítima. Na maioria das vezes, o ataque chega por e-mail, mas também pode acontecer por SMS, aplicativos de mensagem ou redes sociais. O objetivo é fazer você clicar em um link, baixar um arquivo malicioso ou informar dados como senhas, códigos de autenticação e informações bancárias.</p>
+
+  <p>Esse é um dos golpes digitais mais comuns do mundo porque explora emoções e reações humanas, e não apenas falhas tecnológicas. Os golpistas criam mensagens que despertam <strong>pressa</strong>, <strong>medo</strong>, <strong>curiosidade</strong> ou um falso senso de <strong>autoridade</strong>. Exemplos clássicos são: "Sua conta será bloqueada em 2 horas", "Imposto de Renda: pendência urgente", "RH: confirme seus dados" ou "Você recebeu uma encomenda".</p>
+
+  <p>A boa notícia é que mensagens de phishing quase sempre deixam pistas. Erros de escrita, remetentes estranhos, links suspeitos, pedidos incomuns de informações e um tom de urgência exagerado costumam indicar que algo está errado. Nas próximas telas, você verá 6 e-mails e deverá decidir: <strong>phishing ou legítimo?</strong> Observe cada detalhe antes de responder.</p>
+
+sinais_comuns:
+  - "Domínio do remetente esquisito (ex.: @itau-seguro.com em vez de @itau.com.br)"
+  - "Saudação genérica ('Prezado cliente') quando deveria ser personalizada"
+  - "Urgência ou ameaça ('sua conta será bloqueada hoje')"
+  - "Link cujo endereço real é diferente do texto exibido"
+  - "Erros de português, formatação estranha, logo de baixa qualidade"
+  - "Pedido de senha, CPF, ou dados bancários por e-mail"
+  - "Anexo inesperado, principalmente .zip, .exe ou documento com macros"
+
+emails:
+  - id: 1
+    remetente_nome: "Receita Federal"
+    remetente_email: "atendimento@receita-gov.org"
+    assunto: "URGENTE: Pendência no seu CPF - Regularize em 24h"
+    corpo: |
+      <p>Prezado contribuinte,</p>
+      <p>Identificamos uma <strong>pendência grave</strong> no seu CPF que pode resultar em bloqueio em até 24 horas.</p>
+      <p>Para regularizar, acesse o link abaixo e confirme seus dados:</p>
+      <p><a href="#">https://receita.gov.br/regularizar</a></p>
+      <p>Não responda este e-mail.</p>
+      <p>Atenciosamente,<br>Receita Federal do Brasil</p>
+    resposta: phishing
+    sinais:
+      - "Domínio '@receita-gov.org' não é oficial da Receita Federal"
+      - "Urgência forçada ('24 horas', 'bloqueio')"
+      - "Saudação genérica ('Prezado contribuinte')"
+      - "Link que diz receita.gov.br mas pode levar a qualquer lugar"
+
+  - id: 2
+    remetente_nome: "RH FUNSERV"
+    remetente_email: "rh@funserv.gov.br"
+    assunto: "Comunicado: Recesso de fim de ano"
+    corpo: |
+      <p>Prezados servidores,</p>
+      <p>Informamos que o recesso institucional ocorrerá entre os dias 23/12 e 02/01, conforme calendário aprovado pela diretoria.</p>
+      <p>O expediente será retomado em 03/01, no horário normal.</p>
+      <p>Em caso de dúvidas, procure a chefia imediata ou o setor de Recursos Humanos.</p>
+      <p>Atenciosamente,<br>Recursos Humanos - FUNSERV</p>
+    resposta: legitimo
+    sinais:
+      - "Domínio da própria instituição"
+      - "Comunicado institucional, sem pedido de clique ou dado"
+      - "Sem urgência artificial, sem ameaça"
+      - "Linguagem padrão de comunicado interno"
+
+  - id: 3
+    remetente_nome: "Microsoft Outlook"
+    remetente_email: "no-reply@outlook-security-team.com"
+    assunto: "Sua senha expira hoje: Reative agora"
+    corpo: |
+      <p>Olá,</p>
+      <p>Sua senha do Outlook expira <strong>hoje, em 3 horas</strong>. Para evitar perda de acesso, clique abaixo:</p>
+      <p><a href="#">Reativar minha conta agora</a></p>
+      <p>Se você não tomar ação, sua conta será desativada permanentemente.</p>
+      <p>Equipe de Segurança Microsoft</p>
+    resposta: phishing
+    sinais:
+      - "Domínio '@outlook-security-team.com' não é da Microsoft"
+      - "Urgência ('3 horas', 'desativada permanentemente')"
+      - "Pedido pra clicar e digitar senha"
+      - "Microsoft não envia esse tipo de aviso por e-mail externo"
+
+  - id: 4
+    remetente_nome: "Banco do Brasil"
+    remetente_email: "seguranca@bb-atendimento.net"
+    assunto: "Confirmação de transferência PIX - R$ 4.890,00"
+    corpo: |
+      <p>Olá,</p>
+      <p>Confirmamos o recebimento da sua transferência PIX no valor de <strong>R$ 4.890,00</strong> para o destinatário <strong>JOAO M S RIBEIRO</strong>.</p>
+      <p>Caso não reconheça esta transação, cancele imediatamente clicando no link abaixo:</p>
+      <p><a href="#">CANCELAR TRANSAÇÃO</a></p>
+      <p>Você terá <strong>15 minutos</strong> para cancelar antes da confirmação definitiva.</p>
+    resposta: phishing
+    sinais:
+      - "Domínio '@bb-atendimento.net' não é do Banco do Brasil"
+      - "Tática clássica: induz pânico ('eu não fiz essa transferência!') pra você clicar sem pensar"
+      - "Urgência ('15 minutos')"
+      - "Valor alto pra aumentar o susto"
+
+  - id: 5
+    remetente_nome: "Maria Santos (Contabilidade)"
+    remetente_email: "maria.santos@funservsorocaba.gov.br"
+    assunto: "Planilha de fechamento - revisão"
+    corpo: |
+      <p>Prezado,</p>
+      <p>Conforme combinamos na reunião de ontem, segue a planilha de fechamento pra você revisar antes da entrega.</p>
+      <p>Se possível, me devolve com os comentários até quinta. Qualquer dúvida me chama.</p>
+      <p>Abraço,<br>Maria</p>
+    resposta: legitimo
+    sinais:
+      - "Domínio interno da instituição"
+      - "Contexto coerente (referência à reunião de ontem)"
+      - "Tom pessoal, sem pressa artificial, sem ameaça"
+      - "Sem link suspeito, sem pedido de dado"
+
+  - id: 6
+    remetente_nome: "WhatsApp - Correios"
+    remetente_email: "+55 11 9XXXX-3847"
+    assunto: "Mensagem no WhatsApp"
+    corpo: |
+      <div class='spd-whats'>
+        <div class='spd-whats-balao'>
+          <div class='spd-whats-texto'>Olá! Aqui é dos <strong>Correios</strong>. 📦</div>
+          <div class='spd-whats-hora'>14:23</div>
+        </div>
+        <div class='spd-whats-balao'>
+          <div class='spd-whats-texto'>Identificamos uma encomenda em seu nome retida na alfândega. Para liberar, é necessário o pagamento de uma pequena taxa de R$ 4,90.</div>
+          <div class='spd-whats-hora'>14:23</div>
+        </div>
+        <div class='spd-whats-balao'>
+          <div class='spd-whats-texto'>Acesse o link para regularizar: <span class='spd-whats-link'>https://correios-taxa.net/pagar</span></div>
+          <div class='spd-whats-hora'>14:24</div>
+        </div>
+        <div class='spd-whats-balao'>
+          <div class='spd-whats-texto'>⚠️ Prazo máximo: 24h. Após esse período, a encomenda será devolvida ao remetente.</div>
+          <div class='spd-whats-hora'>14:24</div>
+        </div>
+      </div>
+    resposta: phishing
+    sinais:
+      - "Correios não cobra taxas por WhatsApp - só por boleto oficial no site correios.com.br"
+      - "Domínio 'correios-taxa.net' não é dos Correios (real: correios.com.br)"
+      - "Valor baixo (R$ 4,90) é tática pra parecer inofensivo e induzir clique sem pensar - o objetivo real é capturar dados do cartão"
+      - "Urgência ('24h', 'devolvida ao remetente')"
+      - "Número de telefone pessoal, não é canal oficial - Correios usaria número verificado de empresa"
+      - "Quem nem comprou nada também recebe a mensagem - golpe enviado em massa"
+fecho: |
+  <p>Pronto, Dia 2 fechado. Phishing é menos sobre conhecimento técnico e mais sobre <strong>desacelerar</strong>: quase todo golpe depende de você agir sem pensar.</p>
+  <p>Amanhã: <strong>No dia a dia</strong> - situações reais que acontecem dentro da FUNSERV e o que fazer.</p>

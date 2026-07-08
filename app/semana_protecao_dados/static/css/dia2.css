@@ -1,0 +1,189 @@
+/* ============================================
+   DIA 2 — Caça ao Phishing
+   Elementos específicos: caixa de sinais comuns
+   (accordion), mock de cliente de e-mail, mock
+   de WhatsApp, botões phishing/legítimo, lista
+   de sinais na revisão.
+   ============================================ */
+
+/* === Detalhes / sinais comuns (accordion) === */
+.spd-sinais {
+  margin: 1.5rem 0;
+  background: #fff8e1;
+  border-left: 3px solid #f0ad4e;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+}
+.spd-sinais summary {
+  cursor: pointer;
+  font-weight: 500;
+  color: #8a6d3b;
+}
+.spd-sinais ul {
+  margin: 0.75rem 0 0;
+  padding-left: 1.25rem;
+}
+.spd-sinais li {
+  margin: 0.35rem 0;
+  font-size: 0.92rem;
+  color: #5d4d2a;
+}
+
+/* === Mock de e-mail === */
+.spd-email {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 1rem 0 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+.spd-email.saindo {
+  opacity: 0;
+  transform: translateX(-12px);
+}
+.spd-email.entrando {
+  opacity: 0;
+  transform: translateX(12px);
+  animation: spd-entrar 0.25s ease forwards;
+}
+
+.spd-email-cabecalho {
+  padding: 1rem 1.25rem;
+  background: #f7f9fc;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.spd-email-de {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.spd-email-avatar {
+  width: 40px;
+  height: 40px;
+  background: #2c5aa0;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.spd-email-nome {
+  font-weight: 600;
+  color: #222;
+  font-size: 0.98rem;
+}
+.spd-email-endereco {
+  color: #888;
+  font-size: 0.85rem;
+  font-family: monospace;
+}
+
+.spd-email-assunto {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.spd-email-corpo {
+  padding: 1.25rem 1.5rem;
+  line-height: 1.6;
+  color: #333;
+}
+.spd-email-corpo p {
+  margin: 0 0 0.85rem;
+}
+.spd-email-corpo a {
+  color: #2c5aa0;
+  text-decoration: underline;
+}
+
+/* === Botões 2 colunas (phishing / legítimo) === */
+.spd-quiz-botoes-2col {
+  grid-template-columns: 1fr 1fr !important;
+}
+.spd-opcao-phishing {
+  --cor: #c0392b;
+}
+.spd-opcao-legitimo {
+  --cor: #5aa02c;
+}
+
+/* === Lista de sinais na revisão === */
+.spd-sinais-lista {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+}
+.spd-sinais-lista li {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #555;
+}
+
+/* === Mock de WhatsApp === */
+.spd-whats {
+  background: #e5ddd5;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(255,255,255,0.08) 0%, transparent 50%);
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 100%;
+}
+
+.spd-whats-balao {
+  background: #fff;
+  padding: 0.55rem 0.7rem 0.4rem;
+  border-radius: 8px;
+  border-top-left-radius: 2px;
+  max-width: 85%;
+  align-self: flex-start;
+  box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13);
+  position: relative;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.spd-whats-balao::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -8px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 8px 8px 0;
+  border-color: transparent #fff transparent transparent;
+}
+
+.spd-whats-texto {
+  font-size: 0.92rem;
+  line-height: 1.4;
+  color: #303030;
+  word-wrap: break-word;
+}
+
+.spd-whats-link {
+  color: #1f7aff;
+  text-decoration: underline;
+  word-break: break-all;
+}
+
+.spd-whats-hora {
+  font-size: 0.68rem;
+  color: #8c8c8c;
+  text-align: right;
+  margin-top: 0.15rem;
+}

@@ -1,0 +1,27 @@
+/* ============================================
+   DIA 1 — Dado Pessoal
+   Elementos específicos do Dia 1: legenda de
+   categorias acima do quiz.
+   ============================================ */
+
+.spd-legenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: #fafafa;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+.spd-legenda-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.spd-legenda-bolinha {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--cor);
+}

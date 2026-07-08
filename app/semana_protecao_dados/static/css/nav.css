@@ -1,0 +1,44 @@
+/* ============================================
+   NAV — barra com os 5 dias no topo de cada
+   página da SPD. Estados: ativo / bloqueado.
+   ============================================ */
+
+.spd-nav {
+  display: flex;
+  gap: 0.5rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+.spd-nav-item {
+  flex: 1 1 150px;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  background: #fff;
+  transition: all 0.15s;
+}
+.spd-nav-item:hover:not(.bloqueado) {
+  border-color: #2c5aa0;
+  background: #f0f5ff;
+}
+.spd-nav-item.ativo {
+  border-color: #2c5aa0;
+  background: #2c5aa0;
+  color: #fff;
+}
+.spd-nav-item.bloqueado {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.spd-nav-num {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.spd-nav-titulo {
+  font-size: 0.95rem;
+}

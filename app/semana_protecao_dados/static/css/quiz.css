@@ -1,0 +1,108 @@
+/* ============================================
+   QUIZ — mecânica genérica de quiz usada nos
+   Dias 1 e 2. Telas, botões de opção, item,
+   feedback, transição entre perguntas, resultado.
+   ============================================ */
+
+.spd-quiz-tela {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 2rem;
+  margin: 1.5rem 0;
+}
+
+.spd-quiz-topo {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #eee;
+}
+
+.spd-quiz-item p {
+  font-size: 1.25rem;
+  line-height: 1.5;
+  margin: 1.5rem 0;
+  font-weight: 500;
+}
+
+/* Botões de opção */
+.spd-quiz-botoes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+.spd-quiz-opcao {
+  padding: 1rem;
+  border: 2px solid var(--cor);
+  background: #fff;
+  color: var(--cor);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+.spd-quiz-opcao:hover:not(:disabled) {
+  background: var(--cor);
+  color: #fff;
+}
+.spd-quiz-opcao:disabled { cursor: default; opacity: 0.6; }
+.spd-quiz-opcao.correta {
+  background: #5aa02c !important;
+  border-color: #5aa02c !important;
+  color: #fff !important;
+  opacity: 1;
+}
+.spd-quiz-opcao.errada {
+  background: #c0392b !important;
+  border-color: #c0392b !important;
+  color: #fff !important;
+  opacity: 1;
+}
+
+/* Feedback intermediário (não usado nos Dias 1 e 2 atualmente, mas mantido) */
+.spd-quiz-feedback {
+  margin-top: 1.5rem;
+  padding: 1rem 1.25rem;
+  background: #f7f9fc;
+  border-radius: 6px;
+}
+.spd-quiz-feedback .feedback-ok { color: #5aa02c; font-weight: 600; font-size: 1.05rem; }
+.spd-quiz-feedback .feedback-erro { color: #c0392b; font-weight: 600; font-size: 1.05rem; }
+.spd-quiz-feedback p { margin: 0.5rem 0; }
+
+/* Resultado final do quiz */
+.spd-quiz-resultado {
+  background: #f7f9fc;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+  font-size: 1.1rem;
+}
+.spd-quiz-resultado > div { margin: 0.4rem 0; }
+.spd-quiz-score {
+  font-size: 1.3rem;
+  color: #2c5aa0;
+  margin-top: 0.75rem !important;
+  padding-top: 0.75rem;
+  border-top: 1px solid #ddd;
+}
+
+/* Transição entre perguntas */
+.spd-quiz-item {
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+.spd-quiz-item.saindo {
+  opacity: 0;
+  transform: translateX(-12px);
+}
+.spd-quiz-item.entrando {
+  opacity: 0;
+  transform: translateX(12px);
+  animation: spd-entrar 0.25s ease forwards;
+}

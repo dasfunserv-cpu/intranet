@@ -1,0 +1,18 @@
+/* ============================================
+   SPD — Semana de Proteção de Dados
+   Arquivo índice. Importa todos os módulos CSS.
+   ============================================ */
+
+@import url('base.css');
+@import url('nav.css');
+@import url('nav.css');
+@import url('carrossel.css');
+@import url('countdown.css');
+@import url('quiz.css');
+@import url('revisao.css');
+@import url('ranking.css');
+@import url('dia1.css');
+@import url('dia2.css');
+@import url('dia3.css');
+@import url('dia4.css');
+@import url('dia5.css');

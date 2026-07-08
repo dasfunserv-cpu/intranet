@@ -1,0 +1,140 @@
+titulo: "No dia a dia"
+subtitulo: "Situações reais que acontecem dentro da FUNSERV"
+capa: "/semana-protecao-dados/static/img/capa_dia3.png"
+
+intro: |
+  <p>Nos dois primeiros dias, vimos como <strong>identificar dados pessoais</strong> e como nos proteger de <strong>ameaças externas</strong>, como golpes de phishing. Hoje, o foco é diferente: vamos falar das nossas <strong>ações cotidianas</strong>.</p>
+
+  <p>A maior parte dos incidentes envolvendo dados pessoais não acontece por causa de ataques sofisticados. Muitas vezes, eles surgem durante a rotina de trabalho: um documento enviado para o destinatário errado, uma conversa sobre um caso em um local inadequado, uma tela de computador deixada desbloqueada ou uma informação compartilhada sem a devida necessidade.</p>
+
+  <p>Essas situações costumam acontecer sem má intenção. São atitudes tomadas por pressa, hábito ou excesso de confiança. Justamente por serem comuns, acabam representando um dos maiores riscos à privacidade e à segurança das informações.</p>
+
+  <p>A LGPD faz parte dessas pequenas decisões do dia a dia. Antes de compartilhar um dado, imprimir um documento, responder uma solicitação ou publicar uma informação, vale a pena fazer uma rápida reflexão: <strong>essa pessoa realmente precisa ter acesso a esse dado?</strong> e <strong>essa informação é realmente necessária?</strong></p>
+
+  <p>Nos cenários a seguir, você encontrará situações que podem acontecer em qualquer setor da FUNSERV. Escolha como você agiria em cada uma delas. Depois, mostraremos qual é a conduta mais adequada segundo a LGPD e por que ela ajuda a proteger tanto os titulares dos dados quanto você e a instituição.</p>
+
+cenarios:
+  - id: 1
+    titulo: "A filha do aposentado"
+    contexto: |
+      <p>Toca o telefone. Uma senhora se identifica como filha do Sr. José, aposentado da FUNSERV. Ela explica:</p>
+      <p><em>"Meu pai tá com 82 anos, meio confuso ultimamente, e a gente precisa entender o valor do benefício pra organizar as contas dele. Você pode me passar?"</em></p>
+      <p>A voz dela parece sincera. O nome do Sr. José confere com o cadastro. <strong>O que você faz?</strong></p>
+    alternativas:
+      - id: a
+        texto: "Passa o valor. É filha, tá ajudando o pai idoso, não faz sentido complicar."
+        correta: false
+        feedback: |
+          Difícil, mas <strong>não</strong>. Você não tem como confirmar que ela é mesmo filha - nome confere, voz é simpática, mas isso não autoriza ninguém. E mesmo se fosse filha de verdade, o titular é o Sr. José, não ela.
+          
+          Cenários reais já incluíram filhos golpistas, ex-cônjuges, e até estagiários de "consultoria previdenciária" se passando por familiares.
+      
+      - id: b
+        texto: "Diz que não pode passar nada por telefone e encerra a ligação."
+        correta: false
+        feedback: |
+          Você acertou em <strong>não vazar</strong> - mas parou na metade. Negar o acesso é correto; encerrar sem orientar, não. A pessoa do outro lado pode ter uma necessidade legítima, e o atendimento público tem o <strong>dever de orientar o caminho certo</strong>, não só de barrar.
+          
+          Proteger dados não é sinônimo de ser ríspido. O ideal é recusar a informação <em>e</em> explicar como o titular (ou um representante legal) pode obtê-la formalmente.
+      
+      - id: c
+        texto: "Explica que só pode passar dados para o próprio titular ou representante legal devidamente identificado, e orienta o caminho formal."
+        correta: true
+        feedback: |
+          Esse é o caminho. <strong>Princípio do art. 18 da LGPD</strong>: o titular dos dados é quem pode acessá-los - ou alguém com representação legal comprovada (procuração, curatela). 
+          
+          Atenda com empatia, mas firmeza: "Eu entendo a situação, e por isso mesmo nosso procedimento protege o seu pai. Veja como a senhora pode ajudá-lo formalmente..."
+
+  - id: 2
+    titulo: "Planilha no WhatsApp"
+    contexto: |
+      <p>São 16h de uma sexta. Uma colega de outro setor te manda uma mensagem no <strong>WhatsApp pessoal</strong>:</p>
+      <p><em>"Oi! Olha, tô fechando um relatório aqui e preciso de uma segunda opinião. Tô te mandando uma planilha com a relação dos beneficiários - uns 200, com CPF e valor de benefício. Dá uma olhada e me fala se tá fazendo sentido?"</em></p>
+      <p>A planilha já chegou. Ela é colega antiga, gente boa. <strong>O que você faz?</strong></p>
+    alternativas:
+      - id: a
+        texto: "Abre a planilha e ajuda. É colega, é coisa de trabalho."
+        correta: false
+        feedback: |
+          Não. Independente da intenção, <strong>dados pessoais não circulam por WhatsApp pessoal</strong> - não tem controle de quem mais tá no aparelho, não tem rastreabilidade, fica salvo na nuvem do WhatsApp, no backup do celular dela e do seu.
+          
+          Se acontecer um vazamento depois, sua impressão digital está ali: "vi e não falei nada".
+      
+      - id: b
+        texto: "Não abre e sugere mandar pelo canal interno (e-mail funcional, sistema, etc)."
+        correta: true
+        feedback: |
+          Exato. Você protege os dados, protege a colega (que provavelmente não pensou no risco), e protege a si mesmo. E ainda educa pelo exemplo.
+          
+          <strong>Princípio da segurança</strong> (LGPD art. 46): dado pessoal exige medidas técnicas adequadas. WhatsApp pessoal não é canal adequado pra dado de 200 pessoas.
+          
+      
+      - id: c
+        texto: "Apaga a mensagem sem responder. Não viu, não aconteceu."
+        correta: false
+        feedback: |
+          Você se protege individualmente, mas a planilha <strong>continua circulando</strong>, e a colega vai mandar pra outra pessoa achando normal. O problema não foi resolvido, só foi terceirizado.
+          
+          A resposta "b" é melhor: protege os dados E corrige a prática.
+
+  - id: 3
+    titulo: "Aquele conhecido no sistema"
+    contexto: |
+      <p>Você tem acesso ao sistema de aposentados pra fazer seu trabalho. Hoje, conversando com sua mãe, ela mencionou que <strong>o Seu Antônio</strong>, vizinho de infância, que você não vê há anos, agora é aposentado pela FUNSERV.</p>
+      <p>Sua curiosidade bate. Em 30 segundos você pode olhar a ficha dele: aposentou quando, recebe quanto, mora onde. Ninguém vai saber. <strong>O que você faz?</strong></p>
+    alternativas:
+      - id: a
+        texto: "Dá uma olhada rápida. É só curiosidade, não vou contar pra ninguém."
+        correta: false
+        feedback: |
+          Esse é o vazamento mais comum e o mais difícil de detectar - porque parece inofensivo. Mas <strong>acessar dado sem finalidade legítima de trabalho é violação direta da LGPD</strong> (princípio da finalidade, art. 6º, I).
+          
+          Sistemas sérios registram todo acesso (logs de auditoria). "Ninguém vai saber" é uma aposta ruim, e mesmo se ninguém descobrir, você quebrou a confiança que foi depositada em você quando te deram o acesso.
+      
+      - id: b
+        texto: "Não acessa. O sistema é ferramenta de trabalho, não de curiosidade pessoal."
+        correta: true
+        feedback: |
+          Esse é o ponto. Acesso a sistema com dados pessoais vem com <strong>uma única autorização: cumprir suas atribuições funcionais</strong>. Tudo que está fora disso, por mais inocente que pareça, é desvio de finalidade.
+          
+          A pergunta certa antes de qualquer consulta é: "<em>essa consulta é necessária pra eu fazer meu trabalho agora?</em>" Se a resposta for não, não consulta.
+      
+      - id: c
+        texto: "Pergunta pra um colega que conhece o Seu Antônio, em vez de acessar você mesmo."
+        correta: false
+        feedback: |
+          Você não acessou o sistema, mas <strong>induziu outra pessoa a violar a LGPD</strong> - e ainda colocou um colega numa situação delicada. O problema é o mesmo: extrair dado pessoal pra finalidade não autorizada, só que pior, porque envolve mais gente.
+          
+          Curiosidade sobre a vida alheia se resolve perguntando pra própria pessoa, ou aceitando que você não precisa saber.
+
+  - id: 4
+    titulo: "Computador aberto na mesa do colega"
+    contexto: |
+      <p>Você passa pela mesa da Patrícia pra usar a impressora ao lado. Ela saiu pra almoçar. O computador dela <strong>está desbloqueado</strong>, e na tela aparece o sistema dos beneficiários, com a ficha de alguém aberta.</p>
+      <p>Qualquer pessoa que passar ali vê os dados. <strong>O que você faz?</strong></p>
+    alternativas:
+      - id: a
+        texto: "Avisa a colega quando ela voltar e orienta a sempre bloquear o computador ao se afastar."
+        correta: true
+        feedback: |
+          Resposta certa. Você <strong>educa o colega</strong> sem expor publicamente e ajuda a construir cultura de proteção no setor.
+          
+          Bloquear o computador ao se afastar (Win+L no Windows, Ctrl+Cmd+Q no Mac) é uma das medidas mais básicas de segurança da informação, e uma das mais ignoradas. Conversar com calma e sem julgamento é o que faz colega ouvir e mudar o hábito.
+          
+      - id: b
+        texto: "Não mexe e não fala nada. Não é seu computador, não é da sua conta."
+        correta: false
+        feedback: |
+          Respeitar o espaço do colega faz sentido em geral, mas aqui você tem um <strong>dado pessoal exposto</strong> que qualquer um pode ver, inclusive alguém que esteja procurando justamente isso. Ignorar é deixar o problema correndo.
+      
+      - id: c
+        texto: "Tira uma foto da tela e manda no grupo do trabalho pra ela ver quando voltar: 'a Patrícia esqueceu de bloquear de novo, kkk'."
+        correta: false
+        feedback: |
+          Você <strong>multiplicou o vazamento</strong>. A tela tinha dado pessoal exposto pra quem passasse; agora a foto da tela com o mesmo dado tá no grupo do trabalho, salvo no celular de todo mundo, possivelmente backupado na nuvem.
+          
+          E ainda expôs a Patrícia publicamente. Resposta "a" resolve o problema sem criar dois novos.
+
+fecho: |
+  <p>O fio que conecta esses quatro cenários: <strong>a maioria dos problemas com dados pessoais não vem de hackers, vem da rotina</strong>. Vem do telefonema que você quer resolver rápido, do colega que pediu ajuda, da curiosidade que parece inofensiva, do clique que faltou.</p>
+  <p>Amanhã: <strong>Você também é titular</strong> - vira a chave e olha LGPD do outro lado, como cidadão. Tem um vídeo curto de 3 minutos que vai te fazer pensar antes do próximo cadastro.</p>

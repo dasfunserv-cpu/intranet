@@ -1,0 +1,18 @@
+/* ============================================
+   COUNTDOWN — página de contagem regressiva
+   antes do início da campanha (13/jul).
+   ============================================ */
+
+.spd-countdown {
+  text-align: center;
+}
+.spd-countdown-numero {
+  font-size: 2rem;
+  margin: 2rem 0;
+  color: #2c5aa0;
+}
+.spd-preview {
+  display: inline-block;
+  text-align: left;
+  margin-top: 1rem;
+}

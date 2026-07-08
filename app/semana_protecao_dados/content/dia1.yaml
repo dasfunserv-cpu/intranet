@@ -1,0 +1,54 @@
+titulo: "Dado Pessoal"
+subtitulo: "O que conta como dado pessoal e o que não conta"
+capa: "/semana-protecao-dados/static/img/capa_dia1.png"
+
+intro: |
+  <p>A <strong>Lei Geral de Proteção de Dados (LGPD)</strong> considera <strong>dado pessoal</strong> qualquer informação que identifique ou possa identificar uma pessoa. Isso inclui nome, CPF, RG, e-mail e telefone, mas também informações que, isoladas ou em conjunto, permitam descobrir quem é, mesmo sem citar nome.</p>
+
+  <p>Alguns dados exigem proteção ainda maior: são os <strong>dados pessoais sensíveis</strong>, como informações sobre saúde, origem racial ou étnica, religião, opinião política, filiação sindical, vida sexual, dados genéticos e biométricos. Por seu potencial de causar discriminação ou impactos relevantes, seu tratamento requer cuidados especiais.</p>
+
+  <p>Também é importante diferenciar alguns conceitos. A <strong>anonimização</strong> torna impossível identificar o titular, retirando o dado do alcance da LGPD. Já a <strong>pseudonimização</strong> substitui identificadores por códigos, mas ainda permite a reidentificação, mantendo o dado protegido pela lei. Nas publicações oficiais, a técnica mais utilizada é a <strong>ocultação de dados</strong> (tarjamento ou mascaramento), que impede a visualização das informações antes da divulgação do documento.</p>
+
+  <p>Antes de publicar qualquer documento, revise seu conteúdo para identificar dados pessoais ou sensíveis. Sempre que essas informações não forem essenciais para a finalidade da publicação, utilize <strong>tarjas</strong> ou <strong>mascaramento</strong> (como <em>***.456.789-**</em>), converta o arquivo para PDF ou imagem e faça uma última conferência para garantir que nenhum dado permaneça exposto. Assim, é possível conciliar a transparência da Administração Pública com a proteção da privacidade dos titulares.</p>
+
+categorias:
+  - id: pessoal
+    nome: "Dado Pessoal"
+    cor: "#2c5aa0"  
+  - id: sensivel
+    nome: "Sensível"
+    cor: "#a02c5a"
+  - id: pseudonimizado
+    nome: "Pseudonimizado"
+    cor: "#5aa02c"
+  - id: nao
+    nome: "Não é dado pessoal"
+    cor: "#888888"
+
+quiz:
+  - item: "CPF de um beneficiário"
+    resposta: pessoal
+    explicacao: "CPF identifica diretamente uma pessoa. Dado pessoal clássico."
+
+  - item: "Diagnóstico médico em atestado"
+    resposta: sensivel
+    explicacao: "Dados de saúde são sensíveis e exigem proteção reforçada."
+
+  - item: "Número de matrícula"
+    resposta: pessoal
+    explicacao: "Identifica a pessoa dentro da instituição. É dado pessoal."
+
+  - item: "Relatório estatístico: '40% dos aposentados têm mais de 70 anos'"
+    resposta: nao
+    explicacao: "Estatística agregada não identifica ninguém. Não é dado pessoal."
+
+  - item: "Planilha com 'Servidor 001, Servidor 002...' mas com a chave de tradução guardada em outro arquivo"
+    resposta: pseudonimizado
+    explicacao: "Pseudonimização: substituiu o identificador, mas dá pra reverter com a chave."
+
+  - item: "CNPJ de uma empresa em um contrato."
+    resposta: nao
+    explicacao: "CNPJ identifica uma empresa, não uma pessoa física. Não é dado pessoal."
+
+fecho: |
+  <p>Pronto, primeiro dia fechado. Amanhã: <strong>Caça ao Phishing</strong>: como identificar o golpe mais comum que chega na sua caixa de entrada.</p>

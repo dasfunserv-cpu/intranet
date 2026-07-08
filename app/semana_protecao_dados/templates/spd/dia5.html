@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('spd.static', filename='css/spd.css') }}">
+
+<div class="spd-container">
+  <a href="{{ url_for('spd.index') }}" class="spd-voltar">← Voltar</a>
+
+  {% include 'spd/_nav.html' %}
+
+  <article class="spd-conteudo">
+    <h1>{{ conteudo.titulo }}</h1>
+    <p class="spd-subtitulo">{{ conteudo.subtitulo }}</p>
+
+    {% if conteudo.capa %}
+    <div class="spd-capa">
+      <img src="{{ conteudo.capa }}" alt="{{ conteudo.titulo }}">
+    </div>
+    {% endif %}
+
+    <div class="spd-intro-bloco">
+      {{ conteudo.intro | safe }}
+    </div>
+
+    <!-- Tela inicial -->
+    <div id="missao-inicio" class="spd-quiz-tela">
+      <h2>Pronto pra missão?</h2>
+      <p>5 cenas, uma decisão em cada. Cada escolha vem com explicação. No final, você vê como se saiu.</p>
+      <button id="btn-iniciar" class="spd-btn-primario">Começar a missão</button>
+    </div>
+
+    <!-- Tela da cena -->
+    <div id="missao-jogo" class="spd-quiz-tela" hidden>
+      <div class="spd-quiz-topo">
+        <span class="spd-quiz-progresso">Cena <span id="cena-num">1</span>/{{ conteudo.cenas|length }}</span>
+        <span class="spd-missao-placar">Acertos: <strong id="cena-acertos">0</strong></span>
+      </div>
+
+      <div class="spd-cena" id="cena-bloco">
+        <h2 id="cena-titulo"></h2>
+
+        <div class="spd-cena-layout">
+          <div class="spd-cena-imagem">
+            <img id="cena-img" src="" alt="" hidden>
+          </div>
+          <div class="spd-cena-texto">
+            <div id="cena-narrativa"></div>
+          </div>
+        </div>
+
+        <div id="cena-alternativas" class="spd-cenario-alternativas">
+          <!-- Botões via JS -->
+        </div>
+
+        <div id="cena-feedback" class="spd-cenario-feedback" hidden>
+          <div id="cena-feedback-marca" class="spd-feedback-marca"></div>
+          <div id="cena-feedback-texto" class="spd-feedback-texto"></div>
+          <button id="btn-proximo" class="spd-btn-primario">Próxima cena →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tela final -->
+    <div id="missao-fim" class="spd-quiz-tela" hidden>
+      <h2>Fim da missão</h2>
+      <div class="spd-quiz-resultado">
+        <div class="spd-missao-resultado-num">
+          <strong id="resultado-acertos">0</strong> de {{ conteudo.cenas|length }} acertos
+        </div>
+      </div>
+
+      <div id="resultado-mensagem" class="spd-missao-mensagem"></div>
+
+      <div class="spd-fecho spd-fecho-grande">
+        {{ conteudo.fecho | safe }}
+      </div>
+    </div>
+  </article>
+</div>
+
+<script id="missao-dados" type="application/json">
+{{ {'cenas': conteudo.cenas, 'mensagens_score': conteudo.mensagens_score} | tojson }}
+</script>
+<script src="{{ url_for('spd.static', filename='js/dia5.js') }}"></script>
+{% endblock %}

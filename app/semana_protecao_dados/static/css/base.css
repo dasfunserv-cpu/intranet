@@ -1,0 +1,167 @@
+/* ============================================
+   BASE — container, conteúdo, capa, fecho,
+   botões primário/secundário, animação global.
+   ============================================ */
+
+.spd-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.spd-intro {
+  color: #555;
+  font-size: 1.05rem;
+}
+
+/* === Voltar === */
+.spd-voltar {
+  display: inline-block;
+  color: #2c5aa0;
+  text-decoration: none;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+.spd-voltar:hover {
+  text-decoration: underline;
+}
+
+/* === Conteúdo do dia === */
+.spd-conteudo {
+  margin-top: 2rem;
+}
+.spd-subtitulo {
+  color: #666;
+  font-size: 1.1rem;
+  margin-top: -0.5rem;
+}
+.spd-corpo {
+  line-height: 1.7;
+  margin-top: 1.5rem;
+}
+
+/* === Capa do dia === */
+.spd-capa {
+  width: 100%;
+  aspect-ratio: 21 / 9;
+  margin: 1rem 0 1.5rem;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f0f3f7;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+.spd-capa img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* === Intro do dia (caixa de destaque) === */
+.spd-intro-bloco {
+  background: #f7f9fc;
+  padding: 1.25rem 1.5rem;
+  border-left: 3px solid #2c5aa0;
+  border-radius: 4px;
+  margin: 1.5rem 0;
+}
+.spd-intro-bloco p { margin: 0 0 0.75rem; line-height: 1.6; }
+.spd-intro-bloco p:last-child { margin-bottom: 0; }
+
+/* === Seções genéricas (Dia 4) === */
+.spd-secao {
+  margin: 2.5rem 0;
+}
+.spd-secao h2 {
+  color: #2c5aa0;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e8eef7;
+}
+
+/* === Fecho === */
+.spd-fecho {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+  color: #555;
+}
+
+.spd-fecho-grande {
+  margin-top: 2.5rem;
+  padding: 1.5rem 1.75rem;
+  background: linear-gradient(135deg, #2c5aa0 0%, #1e3a6f 100%);
+  color: #fff;
+  border-radius: 8px;
+  border: none;
+  line-height: 1.6;
+}
+.spd-fecho-grande p { margin: 0 0 0.85rem; }
+.spd-fecho-grande p:last-child { margin-bottom: 0; }
+.spd-fecho-grande strong { color: #fff; }
+
+/* === Botões === */
+.spd-btn-primario {
+  background: #2c5aa0;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 500;
+  margin-top: 0.5rem;
+}
+.spd-btn-primario:hover { background: #1e3a6f; }
+
+.spd-btn-secundario {
+  background: transparent;
+  color: #666;
+  border: 1px solid #ccc;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-left: 0.5rem;
+}
+
+.spd-botoes-grupo {
+  margin-top: 0.75rem;
+}
+
+/* === Animação global de transição === */
+@keyframes spd-entrar {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.spd-cabecalho {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.spd-cabecalho-logo {
+  width: 100px;
+  height: auto;
+  flex-shrink: 0;
+}
+
+.spd-cabecalho-texto {
+  flex: 1;
+}
+
+.spd-cabecalho-texto h1 {
+  margin: 0 0 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .spd-cabecalho {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.75rem;
+  }
+}

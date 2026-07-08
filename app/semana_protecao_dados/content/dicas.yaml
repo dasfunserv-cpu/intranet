@@ -1,0 +1,112 @@
+- tipo: frase
+  texto: "Se você não precisa saber um dado para realizar seu trabalho, provavelmente não deve acessá-lo."
+
+- tipo: pergunta
+  pergunta: "Posso deixar meu computador desbloqueado enquanto pego um café?"
+  resposta: "Não. Alguns minutos são suficientes para alguém acessar ou copiar informações."
+
+- tipo: mito
+  mito: "Só grandes empresas precisam seguir a LGPD."
+  verdade: "Qualquer organização ou pessoa que trate dados pessoais deve respeitar a lei."
+
+- tipo: frase
+  texto: "Mesa limpa também é proteção de dados. Documentos esquecidos podem expor informações pessoais."
+
+- tipo: pergunta
+  pergunta: "Posso compartilhar um contato de colega sem perguntar antes?"
+  resposta: "O ideal é pedir autorização. Dados pessoais devem ser compartilhados apenas quando houver necessidade."
+
+- tipo: mito
+  mito: "Nome e telefone não são dados pessoais importantes."
+  verdade: "São dados pessoais e merecem proteção como qualquer outro."
+
+- tipo: frase
+  texto: "Antes de tirar uma foto no trabalho, confira se não há documentos ou telas com dados ao fundo."
+
+- tipo: pergunta
+  pergunta: "Recebi um e-mail estranho pedindo atualização de cadastro. O que faço?"
+  resposta: "Desconfie. Confirme a origem antes de clicar em links ou informar qualquer dado."
+
+- tipo: mito
+  mito: "Quanto mais dados coletar, melhor."
+  verdade: "A LGPD incentiva coletar apenas o necessário para a finalidade informada."
+
+- tipo: frase
+  texto: "Impressões esquecidas na impressora também podem causar vazamento de dados."
+
+- tipo: pergunta
+  pergunta: "Posso fotografar documentos pessoais com meu celular?"
+  resposta: "Somente se houver autorização e procedimento institucional para isso."
+
+- tipo: mito
+  mito: "Apagar um arquivo da lixeira significa que ele desapareceu."
+  verdade: "Dependendo do sistema, os dados ainda podem ser recuperados."
+
+- tipo: frase
+  texto: "Senhas fortes protegem não apenas sua conta, mas também os dados das pessoas."
+
+- tipo: pergunta
+  pergunta: "Por que trocar a senha periodicamente quando a política da empresa exige?"
+  resposta: "Porque reduz o risco de uso indevido caso a senha tenha sido comprometida."
+
+- tipo: mito
+  mito: "Só hackers causam vazamentos."
+  verdade: "Grande parte dos incidentes acontece por erro humano, como envio para o destinatário errado."
+
+- tipo: frase
+  texto: "Confira o destinatário antes de clicar em 'Enviar'. Um e-mail errado pode virar um incidente."
+
+- tipo: pergunta
+  pergunta: "Posso comentar informações de um atendimento com colegas?"
+  resposta: "Apenas com quem realmente precisa dessas informações para executar suas atividades."
+
+- tipo: mito
+  mito: "Dados públicos podem ser usados para qualquer finalidade."
+  verdade: "Mesmo dados públicos devem respeitar a finalidade e os direitos do titular."
+
+- tipo: frase
+  texto: "Bloqueie a tela sempre que sair da sua estação de trabalho."
+
+- tipo: pergunta
+  pergunta: "O que significa 'titular dos dados'?"
+  resposta: "É a pessoa a quem os dados pessoais pertencem."
+
+- tipo: mito
+  mito: "Consentimento resolve qualquer tratamento de dados."
+  verdade: "Nem sempre. A LGPD prevê outras bases legais, e cada uma tem requisitos específicos."
+
+- tipo: frase
+  texto: "Compartilhar menos é uma das formas mais simples de proteger dados."
+
+- tipo: pergunta
+  pergunta: "Recebi uma planilha com dados pessoais por engano. O que devo fazer?"
+  resposta: "Não compartilhe. Avise o remetente e siga o procedimento da organização."
+
+- tipo: mito
+  mito: "Backup é só para evitar perda de arquivos."
+  verdade: "Também faz parte da segurança da informação e ajuda na continuidade das atividades."
+
+- tipo: frase
+  texto: "Desconfie de pedidos urgentes envolvendo dados pessoais. A pressa é uma aliada dos golpes."
+
+- tipo: pergunta
+  pergunta: "Por que preciso informar a finalidade ao coletar dados?"
+  resposta: "Porque a pessoa tem o direito de saber como e por que suas informações serão utilizadas."
+
+- tipo: mito
+  mito: "Depois que o serviço acaba, posso guardar os dados para sempre."
+  verdade: "Os dados devem ser eliminados quando não forem mais necessários, salvo hipóteses previstas em lei."
+
+- tipo: frase
+  texto: "Proteção de dados começa com pequenas atitudes do dia a dia."
+
+- tipo: pergunta
+  pergunta: "Posso usar um pendrive pessoal para transportar dados do trabalho?"
+  resposta: "Somente se a política da instituição permitir e houver medidas de segurança adequadas."
+
+- tipo: mito
+  mito: "LGPD impede qualquer compartilhamento de dados."
+  verdade: "A lei permite o compartilhamento quando houver base legal, finalidade e medidas de proteção."
+
+- tipo: frase
+  texto: "Quem protege dados protege pessoas."

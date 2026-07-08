@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('spd.static', filename='css/spd.css') }}">
+
+<div class="spd-container spd-countdown">
+  <h1>Semana de Proteção de Dados</h1>
+  <p class="spd-countdown-data">
+    Começa em <strong>{{ data_inicio.strftime('%d/%m/%Y') }}</strong>
+  </p>
+  <div class="spd-countdown-numero">
+    {% if dias_restantes == 0 %}
+      Começa hoje!
+    {% elif dias_restantes == 1 %}
+      Falta <strong>1 dia</strong>
+    {% else %}
+      Faltam <strong>{{ dias_restantes }} dias</strong>
+    {% endif %}
+  </div>
+
+  <p class="spd-intro">O que vem por aí:</p>
+  <ul class="spd-preview">
+    {% for i in range(1, 6) %}
+      <li><strong>Dia {{ i }}:</strong> {{ titulos[i] }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

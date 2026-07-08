@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('spd.static', filename='css/spd.css') }}">
+<a href="{{ url_for('spd.index') }}" class="spd-voltar">← Voltar</a>
+<div class="spd-container">
+  {% include 'spd/_nav.html' %}
+
+  <article class="spd-conteudo">
+    <h1>{{ conteudo.titulo }}</h1>
+    {% if conteudo.subtitulo %}
+      <p class="spd-subtitulo">{{ conteudo.subtitulo }}</p>
+    {% endif %}
+
+    {# Placeholder — vai ser preenchido por blocos específicos de cada dia #}
+    <div class="spd-corpo">
+      {{ conteudo.corpo | safe if conteudo.corpo else '<p><em>Conteúdo em construção.</em></p>' }}
+    </div>
+  </article>
+</div>
+{% endblock %}

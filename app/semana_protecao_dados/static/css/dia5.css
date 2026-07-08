@@ -1,0 +1,131 @@
+/* ============================================
+   DIA 5 — Missão LGPD
+   Cena com imagem em cima e texto embaixo,
+   blockquote estilizado, placar no topo do
+   jogo e tela de resultado com mensagem
+   personalizada por score.
+   ============================================ */
+
+/* === Cena (imagem em cima, texto embaixo) === */
+.spd-cena {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.75rem;
+  margin-top: 1rem;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+.spd-cena.saindo {
+  opacity: 0;
+  transform: translateX(-12px);
+}
+.spd-cena.entrando {
+  opacity: 0;
+  transform: translateX(12px);
+  animation: spd-entrar 0.25s ease forwards;
+}
+
+.spd-cena h2 {
+  margin-top: 0;
+  color: #2c5aa0;
+  font-size: 1.35rem;
+}
+
+.spd-cena-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin: 1.25rem 0 1.5rem;
+}
+@media (max-width: 720px) {
+  .spd-cena-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.spd-cena-imagem {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #f0f3f7;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+}
+.spd-cena-imagem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.spd-cena-texto {
+  line-height: 1.65;
+  font-size: 1rem;
+}
+.spd-cena-texto p {
+  margin: 0 0 0.85rem;
+}
+.spd-cena-texto blockquote {
+  margin: 0.75rem 0;
+  padding: 0.85rem 1rem;
+  background: #f7f9fc;
+  border-left: 3px solid #2c5aa0;
+  font-size: 0.92rem;
+  color: #444;
+  border-radius: 4px;
+}
+.spd-cena-texto blockquote p {
+  margin: 0.4rem 0;
+}
+.spd-cena-texto blockquote p:first-child {
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: #666;
+}
+.spd-cena-texto code {
+  background: #fff3cd;
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+  font-size: 0.9em;
+  color: #8a6d3b;
+}
+
+/* === Placar no topo durante o jogo === */
+.spd-missao-placar {
+  background: #2c5aa0;
+  color: #fff;
+  padding: 0.25rem 0.75rem;
+  border-radius: 14px;
+  font-size: 0.85rem;
+}
+.spd-missao-placar strong {
+  font-weight: 700;
+}
+
+/* === Resultado final === */
+.spd-missao-resultado-num {
+  font-size: 1.4rem;
+  text-align: center;
+  margin: 1rem 0;
+}
+.spd-missao-resultado-num strong {
+  font-size: 2.5rem;
+  color: #2c5aa0;
+}
+
+.spd-missao-mensagem {
+  background: #f7f9fc;
+  border-left: 4px solid #2c5aa0;
+  padding: 1.25rem 1.5rem;
+  border-radius: 6px;
+  margin: 1.5rem 0;
+}
+.spd-missao-mensagem h3 {
+  margin-top: 0;
+  color: #2c5aa0;
+}
+.spd-missao-mensagem p {
+  margin: 0;
+  line-height: 1.6;
+}

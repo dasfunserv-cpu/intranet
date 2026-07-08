@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('spd.static', filename='css/spd.css') }}">
+
+<div class="spd-container">
+  <a href="{{ url_for('spd.index') }}" class="spd-voltar">← Voltar</a>
+
+  {% include 'spd/_nav.html' %}
+
+  <article class="spd-conteudo">
+    <h1>{{ conteudo.titulo }}</h1>
+    <p class="spd-subtitulo">{{ conteudo.subtitulo }}</p>
+    {% if conteudo.capa %}
+    <div class="spd-capa">
+      <img src="{{ conteudo.capa }}" alt="{{ conteudo.titulo }}">
+    </div>
+    {% endif %}
+    <div class="spd-intro-bloco">
+      {{ conteudo.intro | safe }}
+    </div>
+
+    <!-- Tela inicial -->
+    <div id="quiz-inicio" class="spd-quiz-tela">
+      <h2>4 cenários, 4 decisões</h2>
+      <p>Leia cada situação, escolha o que você faria, e veja o porquê da resposta. Sem pressa.</p>
+      <button id="btn-iniciar" class="spd-btn-primario">Começar</button>
+    </div>
+
+    <!-- Tela do cenário -->
+    <div id="quiz-jogo" class="spd-quiz-tela" hidden>
+      <div class="spd-quiz-topo">
+        <span class="spd-quiz-progresso">Cenário <span id="quiz-num">1</span>/{{ conteudo.cenarios|length }}</span>
+      </div>
+
+      <div class="spd-cenario" id="cenario-bloco">
+        <h2 id="cenario-titulo"></h2>
+        <div id="cenario-contexto" class="spd-cenario-contexto"></div>
+
+        <div id="cenario-alternativas" class="spd-cenario-alternativas">
+          <!-- Botões inseridos via JS -->
+        </div>
+
+        <div id="cenario-feedback" class="spd-cenario-feedback" hidden>
+          <div id="cenario-feedback-marca" class="spd-feedback-marca"></div>
+          <div id="cenario-feedback-texto" class="spd-feedback-texto"></div>
+          <button id="btn-proximo" class="spd-btn-primario">Próximo cenário →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tela final -->
+    <div id="quiz-fim" class="spd-quiz-tela" hidden>
+      <h2>Fim do Dia 3</h2>
+      <div class="spd-fecho">
+        {{ conteudo.fecho | safe }}
+      </div>
+    </div>
+  </article>
+</div>
+
+<script id="quiz-dados" type="application/json">
+{{ {'cenarios': conteudo.cenarios} | tojson }}
+</script>
+<script src="{{ url_for('spd.static', filename='js/dia3.js') }}"></script>
+{% endblock %}

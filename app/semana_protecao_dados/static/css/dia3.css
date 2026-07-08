@@ -1,0 +1,139 @@
+/* ============================================
+   DIA 3 — No dia a dia
+   Cenários FUNSERV com 3 alternativas e
+   feedback imediato em qualquer escolha.
+   ============================================ */
+
+.spd-cenario {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.75rem;
+  margin-top: 1rem;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+.spd-cenario.saindo {
+  opacity: 0;
+  transform: translateX(-12px);
+}
+.spd-cenario.entrando {
+  opacity: 0;
+  transform: translateX(12px);
+  animation: spd-entrar 0.25s ease forwards;
+}
+
+.spd-cenario h2 {
+  margin-top: 0;
+  color: #2c5aa0;
+  font-size: 1.35rem;
+}
+
+.spd-cenario-contexto {
+  margin: 1rem 0 1.5rem;
+  line-height: 1.65;
+  font-size: 1.02rem;
+}
+.spd-cenario-contexto p {
+  margin: 0 0 0.85rem;
+}
+.spd-cenario-contexto em {
+  display: block;
+  background: #f7f9fc;
+  border-left: 3px solid #2c5aa0;
+  padding: 0.75rem 1rem;
+  margin: 0.85rem 0;
+  font-style: italic;
+  color: #444;
+}
+
+/* Alternativas (usadas também no Dia 5) */
+.spd-cenario-alternativas {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin: 1.25rem 0;
+}
+
+.spd-alt-btn {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 1rem 1.15rem;
+  background: #2c5aa0;
+  border: 1.5px solid #d8dde5;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: #f5f9ff;
+  transition: all 0.15s;
+}
+.spd-alt-btn:hover:not(:disabled) {
+  border-color: #2c5aa0;
+  background: #f5f9ff;
+  color: #050505;
+}
+.spd-alt-btn:disabled {
+  cursor: default;
+}
+
+.spd-alt-letra {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  background: #fff5fe;
+  color: #2c5aa0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.spd-alt-btn.correta {
+  border-color: #5aa02c;
+  background: #f0f9e8;
+  color: #333;
+}
+.spd-alt-btn.correta .spd-alt-letra {
+  background: #5aa02c;
+  color: #333;
+}
+.spd-alt-btn.errada {
+  border-color: #c0392b;
+  background: #fdecea;
+  color: #333;
+}
+.spd-alt-btn.errada .spd-alt-letra {
+  background: #c0392b;
+  color: #fff;
+}
+
+/* Feedback do cenário (usado também no Dia 5) */
+.spd-cenario-feedback {
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.5rem;
+  background: #f7f9fc;
+  border-radius: 8px;
+  border-left: 4px solid #2c5aa0;
+}
+
+.spd-feedback-marca {
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin-bottom: 0.5rem;
+}
+.spd-feedback-marca.ok { color: #4a8a1f; }
+.spd-feedback-marca.erro { color: #a8341f; }
+
+.spd-feedback-texto {
+  line-height: 1.6;
+  color: #333;
+}
+.spd-feedback-texto p {
+  margin: 0 0 0.75rem;
+}
+.spd-feedback-texto p:last-child { margin-bottom: 0; }
+.spd-feedback-texto strong { color: #2c5aa0; }

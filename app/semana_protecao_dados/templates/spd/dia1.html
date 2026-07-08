@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('spd.static', filename='css/spd.css') }}">
+
+<div class="spd-container">
+  <a href="{{ url_for('spd.index') }}" class="spd-voltar">← Voltar</a>
+
+  {% include 'spd/_nav.html' %}
+
+  <article class="spd-conteudo">
+    <h1>{{ conteudo.titulo }}</h1>
+    <p class="spd-subtitulo">{{ conteudo.subtitulo }}</p>
+    {% if conteudo.capa %}
+    <div class="spd-capa">
+      <img src="{{ conteudo.capa }}" alt="{{ conteudo.titulo }}">
+    </div>
+    {% endif %}
+
+    <div class="spd-intro-bloco">
+      {{ conteudo.intro | safe }}
+    </div>
+
+    <!-- Legenda de categorias -->
+    <div class="spd-legenda">
+      {% for cat in conteudo.categorias %}
+        <div class="spd-legenda-item" style="--cor: {{ cat.cor }}">
+          <span class="spd-legenda-bolinha"></span>
+          {{ cat.nome }}
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Tela inicial -->
+    <div id="quiz-inicio" class="spd-quiz-tela">
+    <h2>Pronto para testar seu conhecimento?</h2>
+    <p>Você verá 6 itens. Pra cada um, escolha a categoria correta.</p>
+    <button id="btn-iniciar" class="spd-btn-primario">Jogar</button>
+    </div>
+
+        <!-- Tela do quiz -->
+        <!-- Tela do quiz -->
+    <div id="quiz-jogo" class="spd-quiz-tela" hidden>
+    <div class="spd-quiz-topo">
+        <span class="spd-quiz-progresso">Item <span id="quiz-num">1</span>/{{ conteudo.quiz|length }}</span>
+        <span class="spd-quiz-timer">⏱ <span id="quiz-tempo">0.0</span>s</span>
+    </div>
+
+    <div class="spd-quiz-item">
+        <p id="quiz-item-texto"></p>
+    </div>
+
+    <div class="spd-quiz-botoes" id="quiz-botoes">
+        {% for cat in conteudo.categorias %}
+        <button class="spd-quiz-opcao" data-id="{{ cat.id }}" style="--cor: {{ cat.cor }}">
+            {{ cat.nome }}
+        </button>
+        {% endfor %}
+    </div>
+    </div>
+
+<!-- Tela final -->
+
+    <!-- Tela final -->
+    <!-- Tela final -->
+    <div id="quiz-fim" class="spd-quiz-tela" hidden>
+    <h2>Fim do quiz!</h2>
+    <div class="spd-quiz-resultado">
+        <div><strong id="resultado-acertos">0</strong> acertos de {{ conteudo.quiz|length }}</div>
+        <div>Tempo: <strong id="resultado-tempo">0.0</strong>s</div>
+        <div class="spd-quiz-score">Score: <strong id="resultado-score">0</strong></div>
+    </div>
+
+    <h3 class="spd-revisao-titulo">Revisão das respostas</h3>
+    <ol id="quiz-revisao" class="spd-revisao-lista"></ol>
+
+    <div id="ranking-form" class="spd-ranking-form">
+        <p>Quer entrar no ranking? Top 5 só.</p>
+        <input type="text" id="input-nome" placeholder="Seu nome (máx 20)" maxlength="20">
+        <div class="spd-botoes-grupo">
+        <button id="btn-enviar-ranking" class="spd-btn-primario">Enviar</button>
+        <button id="btn-pular-ranking" class="spd-btn-secundario">Pular</button>
+        </div>
+        <p class="spd-aviso-privacidade">
+        🔒 Ao enviar, registramos seu IP para fins de moderação.
+        </p>
+    </div>
+
+    <div id="ranking-status" class="spd-ranking-status" hidden></div>
+
+    <div class="spd-fecho">
+        {{ conteudo.fecho | safe }}
+    </div>
+    </div>
+
+<!-- Ranking -->
+
+    <!-- Ranking -->
+    <section class="spd-ranking">
+      <h3>🏆 Top 5</h3>
+      <ol id="ranking-lista" class="spd-ranking-lista">
+        {% for r in ranking %}
+          <li>
+            <span class="spd-ranking-nome">{{ r.nome }}</span>
+            <span class="spd-ranking-score">{{ r.score }}</span>
+          </li>
+        {% else %}
+          <li class="spd-ranking-vazio">Seja o primeiro!</li>
+        {% endfor %}
+      </ol>
+    </section>
+  </article>
+</div>
+
+<!-- Dados do quiz pro JS -->
+<script id="quiz-dados" type="application/json">
+{{ {
+  'quiz': conteudo.quiz,
+  'categorias': conteudo.categorias,
+  'url_submit': url_for('spd.submeter_ranking', n=1)
+} | tojson }}
+</script>
+<script src="{{ url_for('spd.static', filename='js/dia1.js') }}"></script>
+{% endblock %}
