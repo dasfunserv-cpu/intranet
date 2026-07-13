@@ -1,8 +1,8 @@
 from datetime import date
 
 # Campanha: 13 a 17 de julho de 2026 (segunda a sexta)
-INICIO_CAMPANHA = date(2026, 6, 20)
-FIM_CAMPANHA = date(2026, 7, 10)
+INICIO_CAMPANHA = date(2026, 7, 13)
+FIM_CAMPANHA = date(2026, 7, 17)
 
 
 def dias_liberados(hoje: date | None = None) -> int:
