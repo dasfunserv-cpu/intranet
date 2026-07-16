@@ -105,3 +105,13 @@ class AccessLog(db.Model):
     
     document = db.relationship('Document', backref=db.backref('access_logs', lazy=True, cascade='all, delete-orphan', passive_deletes=True))
     user = db.relationship('User', backref='access_history', lazy=True)
+
+
+class PageView(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    path = db.Column(db.String(500), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    method = db.Column(db.String(10), default='GET')
+
+    user = db.relationship('User', backref='page_views', lazy=True)

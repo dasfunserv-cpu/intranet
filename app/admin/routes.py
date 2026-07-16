@@ -1,11 +1,11 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request, current_app, abort
 from flask_login import login_required, current_user
-from app.models import Sector, Category, Document, Announcement, AuditLog, AccessLog, User, Role, Permission
+from app.models import Sector, Category, Document, Announcement, AuditLog, AccessLog, User, Role, Permission, PageView
 from app import db
 from app.utils import log_audit, generate_thumbnail, permission_required
 import os
 from werkzeug.utils import secure_filename
-from datetime import datetime
+from datetime import datetime, timedelta
 
 admin = Blueprint('admin', __name__)
 
@@ -78,8 +78,6 @@ def add_category():
 @permission_required('manage_categories')
 def delete_category(category_id):
     category = Category.query.get_or_404(category_id)
-    # Move documents to 'No Category' or block deletion? 
-    # For now, let's block if there are documents to be safe.
     if category.documents:
         flash(f'Não é possível excluir a categoria "{category.name}" pois ela possui documentos vinculados.', 'danger')
     else:
@@ -139,7 +137,6 @@ def upload_doc():
             db.session.add(doc)
             db.session.commit()
             
-            # Gerar miniatura
             generate_thumbnail(doc.id)
             
             log_audit('upload', 'document', doc.id, f'Documento "{filename}" enviado.')
@@ -275,7 +272,7 @@ def edit_doc(doc_id):
         doc.category_id = request.form.get('category_id')
         doc.tags = request.form.get('tags')
         
-        if not doc.category_id: # Handle empty selection
+        if not doc.category_id:
             doc.category_id = None
             
         db.session.commit()
@@ -284,25 +281,24 @@ def edit_doc(doc_id):
         return redirect(url_for('admin.list_docs'))
         
     return render_template('admin/edit_document.html', doc=doc, sectors=sectors, categories=categories)
+
 @admin.route('/document/delete/<int:doc_id>', methods=['POST'])
 @permission_required('delete_docs')
 def delete_doc(doc_id):
     doc = Document.query.get_or_404(doc_id)
     title = doc.title
     
-    # Remover arquivo físico
-    from flask import current_app
     file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], doc.filename)
     if os.path.exists(file_path):
         os.remove(file_path)
     
-    # Remover do Banco de Dados
     db.session.delete(doc)
     db.session.commit()
     log_audit('delete', 'document', doc_id, f'Documento "{title}" excluído do sistema.')
     
     flash(f'Documento "{title}" excluído com sucesso!', 'success')
     return redirect(url_for('admin.list_docs'))
+
 @admin.route('/announcements')
 @permission_required('manage_announcements')
 def manage_announcements():
@@ -361,27 +357,89 @@ def reports():
     from sqlalchemy import func
     import sqlalchemy as sa
     
-    # Statistics
     total_docs = Document.query.count()
     total_sectors = Sector.query.count()
     total_categories = Category.query.count()
+
+    hoje_inicio = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
+    semana_atras = hoje_inicio - timedelta(days=7)
+    mes_atras = hoje_inicio - timedelta(days=30)
     
-    # Top accessed documents (last 30 days or all time)
+    acessos_hoje = PageView.query.filter(
+        PageView.path == '/',
+        PageView.timestamp >= hoje_inicio
+    ).count()
+    
+    acessos_semana = PageView.query.filter(
+        PageView.path == '/',
+        PageView.timestamp >= semana_atras
+    ).count()
+    
+    acessos_mes = PageView.query.filter(
+        PageView.path == '/',
+        PageView.timestamp >= mes_atras
+    ).count()
+    
+    hoje_str = hoje_inicio.strftime('%Y-%m-%d')
+    semana_atras_str = semana_atras.strftime('%Y-%m-%d')
+    mes_atras_str = mes_atras.strftime('%Y-%m-%d')
+    
     top_docs = db.session.query(
         Document, func.count(AccessLog.id).label('access_count')
     ).join(AccessLog).group_by(Document.id).order_by(sa.text('access_count DESC')).limit(10).all()
     
-    # Recent audit logs
     recent_logs = AuditLog.query.order_by(AuditLog.timestamp.desc()).limit(50).all()
     
     return render_template('admin/reports.html', 
                            total_docs=total_docs,
                            total_sectors=total_sectors,
                            total_categories=total_categories,
+                           acessos_hoje=acessos_hoje,
+                           acessos_semana=acessos_semana,
+                           acessos_mes=acessos_mes,
+                           hoje_str=hoje_str,
+                           semana_atras_str=semana_atras_str,
+                           mes_atras_str=mes_atras_str,
                            top_docs=top_docs,
                            recent_logs=recent_logs)
 
-# --- USER MANAGEMENT ---
+@admin.route('/reports/acessos')
+@permission_required('view_reports')
+def access_details():
+    from sqlalchemy import func
+    import sqlalchemy as sa
+    page = request.args.get('page', 1, type=int)
+    per_page = 50
+    data_inicio = request.args.get('data_inicio', '')
+    data_fim = request.args.get('data_fim', '')
+    rota = request.args.get('rota', '').strip()
+
+    query = db.session.query(
+        PageView.path,
+        func.date(PageView.timestamp).label('dia'),
+        func.count(PageView.id).label('total'),
+        func.count(func.distinct(PageView.user_id)).label('usuarios')
+    )
+
+    if data_inicio:
+        query = query.filter(func.date(PageView.timestamp) >= data_inicio)
+    if data_fim:
+        query = query.filter(func.date(PageView.timestamp) <= data_fim)
+    if rota:
+        query = query.filter(PageView.path.like(f'%{rota}%'))
+
+    query = query.group_by('dia', PageView.path).order_by(sa.text('dia DESC, total DESC'))
+
+    pagination = query.paginate(page=page, per_page=per_page, error_out=False)
+
+    total_geral = sum(item.total for item in pagination.items)
+
+    return render_template('admin/access_details.html',
+                           pagination=pagination,
+                           total_geral=total_geral,
+                           data_inicio=data_inicio,
+                           data_fim=data_fim,
+                           rota=rota)
 
 @admin.route('/users')
 @permission_required('manage_users')
@@ -465,10 +523,8 @@ def delete_user(user_id):
     flash(f'Usuário "{username}" removido do sistema.', 'success')
     return redirect(url_for('admin.list_users'))
 
-# --- ROLE MANAGEMENT ---
-
 @admin.route('/roles')
-@permission_required('manage_users') # Only admins manage roles
+@permission_required('manage_users')
 def manage_roles():
     roles = Role.query.all()
     permissions = Permission.query.all()

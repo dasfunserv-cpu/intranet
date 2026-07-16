@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
@@ -38,7 +38,7 @@
                         <!------------------------ADD ----------------------->
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('spd.index') }}">
-                                <i class="fas fa-shield-alt me-2"></i> Semana de Proteção de Dados
+                                <i class="fas fa-shield-alt me-2"></i> Semana de ProteÃ§Ã£o de Dados
                             </a>
                         </li>
                         <!------------------------ADD ----------------------->
@@ -55,7 +55,7 @@
                     {% if current_user.is_authenticated %}
                     <ul class="nav flex-column mt-4">
                         <hr>
-                        <li class="nav-item text-muted ps-3 small mb-2">GESTÃO</li>
+                        <li class="nav-item text-muted ps-3 small mb-2">GESTÃƒO</li>
 
                         {% if current_user.has_permission('view_reports') %}
                         <li class="nav-item">
@@ -65,7 +65,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('admin.list_users') }}">
-                                <i class="fas fa-users me-2"></i> Usuários
+                                <i class="fas fa-users me-2"></i> UsuÃ¡rios
                             </a>
                         </li>
                         {% endif %}
@@ -95,7 +95,7 @@
                         </form>
                         <div class="btn-toolbar mb-2 mb-md-0">
                             {% if current_user.is_authenticated %}
-                            <span class="navbar-text me-3 small">Olá, <strong>{{ current_user.username }}</strong></span>
+                            <span class="navbar-text me-3 small">OlÃ¡, <strong>{{ current_user.username }}</strong></span>
                             <a href="{{ url_for('auth.logout') }}" class="btn btn-sm btn-outline-danger">Sair</a>
                             {% else %}
                             <a href="{{ url_for('auth.login') }}" class="btn btn-sm btn-primary">Login</a>
